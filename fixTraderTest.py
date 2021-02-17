@@ -1,18 +1,17 @@
 import sys
 sys.path.append('../') 
 import time
+import logging
 
 from dotenv import load_dotenv
-
 load_dotenv()
 
 from fixTrader import FixTrader
 from ejtrader_ct.service.client_service import ClientService
 
-client_service = ClientService()
-client = client_service.listAll()['5f08dee14bddaa41008e6eec']
+logging.getLogger().setLevel(logging.INFO)
 
-fixTrader = FixTrader(client)
+fixTrader = FixTrader()
 #accountInfo = fixTrader.accountInfo()
 #print(accountInfo)
 #print(accountInfo['broker'])

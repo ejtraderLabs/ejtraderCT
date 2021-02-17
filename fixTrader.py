@@ -1,14 +1,24 @@
 import logging
 import json
 import time
+import os
 from operator import itemgetter
 from ejtrader_ct.utils.fix import FIX, Side, OrderType
 
 class FixTrader:
 
-    def __init__(self, c):
-        logging.getLogger().setLevel(logging.INFO)
-        self.client = c
+    def __init__(self):
+        self.client = c = {
+            '_id': '1',
+            'server': os.getenv("FIX_SERVER"),
+            'broker': os.getenv("FIX_BROKER"),
+            'login': os.getenv("FIX_LOGIN"),
+            'password': os.getenv("FIX_PASSWORD"),
+            'currency': os.getenv("FIX_CURRENCY"),
+            'fix_status': 1,
+            'positions': [],
+            'orders': []
+        }
         self.fix = FIX(c['server'], c['broker'], c['login'], c['password'], c['currency'], c['_id'], self.position_list_callback, self.order_list_callback)
         self.market_data_list = {}
 
