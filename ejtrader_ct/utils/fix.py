@@ -190,7 +190,7 @@ class FIX:
         def __repr__(self):
             return pformat([(k.name, v) for k, v in self.fields])
 
-    def __init__(self, server: str, broker: str, login: str, password: str, currency: str, client_id: str, position_list_callback, order_list_callback, update_fix_status, is_server: bool, subscribe):
+    def __init__(self, server: str, broker: str, login: str, password: str, currency: str, client_id: str, position_list_callback, order_list_callback):
         self.qstream = Buffer()
         self.qs = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.qs.connect((server, 5201))
@@ -220,7 +220,6 @@ class FIX:
         self.sec_name_table = {}
         self.position_list_callback = position_list_callback
         self.order_list_callback = order_list_callback
-        self.update_fix_status = update_fix_status
         self.market_data = {}
         self.position_list = {}
         self.spot_request_list = set()
@@ -230,8 +229,6 @@ class FIX:
         self.order_list = {}
         self.origin_to_pos_id = {}
         self.origin_to_ord_id = {}
-        self.is_server = is_server
-        self.subscribe = subscribe
         self.logged = False
         self.logon()
         self.sec_list()
@@ -315,7 +312,6 @@ class FIX:
         logging.error("Logged out: %s" % msg[Field.Text])
         if msg[Field.Text] == None:
             self.logged = False
-            self.update_fix_status(self.client_id, self.logged)
 
     def process_exec_report(self, msg):
         if msg[Field.ExecType] == "F":
@@ -327,55 +323,6 @@ class FIX:
         elif msg[Field.ExecType] in ["0", "4", "5", "C"]:
             self.order_list = {}
             self.order_request()
-            # se eh ctraderserver, envia comando para executar ordem nos clientes
-            if self.is_server:
-                # 0=new 4=canceled 5=replace C=expired
-                # OPEN CLOSED PCLOSED MODIFY
-                switcher = {
-                    '0': "OPEN",
-                    '4': "CLOSED",
-                    '5': "MODIFY",
-                    'C': "CLOSED"
-                }
-                execType = switcher.get(msg[Field.ExecType], "Invalid ExecType")
-                # 0=new 1=partially filled 2=filled 8=rejected 4=cancelled
-                if msg[Field.OrdStatus] in ["1", "4"]:
-                    execType = "PCLOSED"
-
-                orderSymbol = self.sec_id_table[int(msg[Field.Symbol])]["name"]
-                orderTicket = msg[Field.OrderID]
-
-                # se id posicao recebida ja aberta, envia close
-                posTicket = msg[Field.PosMaintRptID]
-                if posTicket in self.origin_to_pos_id.values():
-                    execType = "CLOSED"
-
-                # msg[Field.OrdType] 1=market 2=limit 3=stop
-                # msg[Field.Side] 1=buy 2=sell
-                switcher = {
-                    '11': "0", # buy
-                    '12': "1", # sell
-                    '21': "2", # buy limit
-                    '22': "3", # sell limit
-                    '31': "4", # buy stop
-                    '32': "5"  # sell stop
-                }
-                orderType = switcher.get(msg[Field.OrdType] + msg[Field.Side], "Invalid OrdType + Side")
-
-                if msg[Field.ExecType] not in ['4', 'C']:
-                    orderOpenPrice = msg[Field.Price] if msg[Field.Price] != None else msg[Field.StopPx]
-                    orderClosePrice = "0"
-                else:
-                    orderOpenPrice = "0"
-                    orderClosePrice = msg[Field.Price] if msg[Field.Price] != None else msg[Field.StopPx]
-
-                orderLots = float(msg[Field.OrderQty]) / 10 ** self.sec_id_table[int(msg[Field.Symbol])]["digits"]
-                orderSL = "0" if msg[Field.RelativeSL] == None else msg[Field.RelativeSL]
-                orderTP = "0" if msg[Field.RelativeTP] == None else msg[Field.RelativeTP]
-
-                # 0 OPEN|EURUSD|93630283|3|1.090780|1.087260|0.020000|0.000000|0.000000
-                cmd = '0 {}|{}|{}|{}|{}|{}|{}|{}|{}'.format(execType, orderSymbol, posTicket, orderType, orderOpenPrice, orderClosePrice, orderLots, orderSL, orderTP)
-                self.subscribe.process_message(self.client_id, cmd)
         elif msg[Field.ExecType] == "I":
             name = self.sec_id_table[int(msg[Field.Symbol])]["name"]
             self.order_list[msg[Field.OrderID]] = {
@@ -500,6 +447,7 @@ class FIX:
     message_dispatch = {
         "0": process_ping,
         "1": process_test,
+        "3": process_reject,
         "5": process_logout,
         "8": process_exec_report,
         "9": process_reject,
@@ -650,6 +598,7 @@ class FIX:
         msg[Field.Designation] = "test label"
         if pos_id:
             msg[Field.PosMaintRptID] = pos_id
+        print(msg)
         self.send_message(msg)
 
     def close_position(self, pos_id: str, lots):

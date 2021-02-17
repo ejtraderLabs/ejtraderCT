@@ -1,4 +1,4 @@
-from database import clients_table
+from ..utils.database import clients_table
 from bson.objectid import ObjectId
 import json
 
