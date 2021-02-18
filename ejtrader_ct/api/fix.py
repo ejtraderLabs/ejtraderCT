@@ -7,7 +7,7 @@ from enum import IntEnum, Enum
 import socket
 from pprint import pformat
 from .buffer import Buffer
-from .subscribe import Subscribe
+# from .subscribe import Subscribe
 
 class Field(IntEnum):
     AvgPx = 6

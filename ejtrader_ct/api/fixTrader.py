@@ -3,19 +3,19 @@ import json
 import time
 import os
 from operator import itemgetter
-from ejtrader_ct.utils.fix import FIX, Side, OrderType
+from .fix import FIX, Side, OrderType
 
-class FixTrader:
+class CtraderFix:
 
-    def __init__(self):
+    def __init__(self,server,broker,login,password,currency):
         self.client = c = {
             '_id': '1',
-            'server': os.getenv("FIX_SERVER"),
-            'broker': os.getenv("FIX_BROKER"),
-            'login': os.getenv("FIX_LOGIN"),
-            'password': os.getenv("FIX_PASSWORD"),
-            'currency': os.getenv("FIX_CURRENCY"),
-            'fix_status': 1,
+            'server': server,
+            'broker': broker,
+            'login': login,
+            'password': password,
+            'currency': currency,
+            'fix_status': 0,
             'positions': [],
             'orders': []
         }
