@@ -44,7 +44,7 @@ CtraderFix.buyLimit("EURUSD", 0.01, 1.17, 1.19, 1.18)
 CtraderFix.sellLimit("EURUSD", 0.01, 1.23, 1.17, 1.22)
 ```
 
-#### stop Orders
+#### Stop Orders
 
 ```python
 CtraderFix.buyStop("EURUSD", 0.01, 1.20, 1.24, 1.22)
@@ -89,7 +89,14 @@ CtraderFix.cancel_all()
 CtraderFix.close_all()
 ```
 
-### Future add
+### Future add comming soon
+
+Modify pending orders
+
+```python
+CtraderFix.modify()
+
+```
 
 Real time Data and history
 
