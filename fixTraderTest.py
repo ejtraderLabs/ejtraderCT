@@ -1,5 +1,4 @@
-import sys
-sys.path.append('../') 
+
 import time
 import logging
 from datetime import datetime
