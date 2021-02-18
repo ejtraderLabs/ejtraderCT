@@ -19,7 +19,7 @@ setup(
     name='ejtrader_ct',
     version='3.0.4',
     packages=find_packages(),
-    url='https://ejtrader.readthedocs.io/',
+    url='https://ejtrader_ct.readthedocs.io/',
     download_url='https://ejtrader.com',
     license='MIT License',
     author='Emerson Pedroso & Douglas Barros',
