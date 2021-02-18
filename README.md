@@ -1,4 +1,17 @@
-# import
+# Python Ctrader Fix API
+
+## Installation
+
+```
+pip install ejtrader_ct
+
+or
+
+python setup.py install
+
+```
+
+### import
 
 ```python
 from ejtrader_ct import CtraderFix
@@ -12,7 +25,7 @@ logging.getLogger().setLevel(logging.INFO)
 
 ```
 
-# Fix login account and details
+### Fix login account and details
 
 ```python
 FIX_SERVER="h8.p.c-trader.cn"
@@ -25,7 +38,7 @@ CtraderFix = CtraderFix(FIX_SERVER,FIX_BROKER,FIX_LOGIN,FIX_PASSWORD,FIX_CURRENC
 
 ```
 
-# You can create market or pending order with the commands.
+### You can create market or pending order with the commands.
 
 #### Market Orders
 
