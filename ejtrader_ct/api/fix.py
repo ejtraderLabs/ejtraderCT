@@ -231,7 +231,10 @@ class FIX:
         self.origin_to_ord_id = {}
         self.logged = False
         self.logon()
-        self.sec_list()
+        self.sec_list_evt = threading.Event()
+        self.thread_sec_list = threading.Thread(target=self.sec_list)
+        self.thread_sec_list.start()
+        self.sec_list_evt.wait()
 
     def qworker(self):
         while True:
@@ -412,6 +415,7 @@ class FIX:
             self.sec_list_callback()
         self.position_request()
         self.order_request()
+        self.sec_list_evt.set()
 
     def process_position_list(self, msg):
         if msg[Field.PosReqResult] == "2":
