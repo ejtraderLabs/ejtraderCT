@@ -417,6 +417,14 @@ class FIX:
         self.order_request()
         self.sec_list_evt.set()
 
+    def get_origin_from_pos_id(self, pos_id):
+        keys = list(self.origin_to_pos_id.keys())
+        values = list(self.origin_to_pos_id.values())
+        if pos_id in values:
+            return keys[values.index(pos_id)]
+        else:
+            return None
+
     def process_position_list(self, msg):
         if msg[Field.PosReqResult] == "2":
             return
@@ -427,7 +435,7 @@ class FIX:
             "short": float(msg[Field.ShortQty]),
             "price": float(msg[Field.SettlPrice]),
             "digits": self.sec_id_table[int(msg[Field.Symbol])]["digits"],
-            "clid": msg[Field.ClOrdId]
+            "clid": self.get_origin_from_pos_id(msg[Field.PosMaintRptID])
         }
 
         if name not in self.spot_request_list:

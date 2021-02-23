@@ -1,6 +1,7 @@
 import logging
 import json
 import time
+import random
 import os
 from operator import itemgetter
 from .fix import FIX, Side, OrderType
@@ -27,7 +28,7 @@ class CtraderFix:
         # OPEN CLOSED PCLOSED MODIFY
         v_action = action
         v_symbol = symbol
-        v_ticket = id
+        v_ticket = id if id != None else str(time.time()).replace('.', '') + str(random.randint(10000, 99999))
         v_type = str(type)
         v_openprice = price
         v_lots = volume
@@ -96,44 +97,45 @@ class CtraderFix:
                 command = '{0} {1} {2} {3} {4}'.format(otype, symbol, size, v_openprice, v_ticket)
 
         self.parse_command(command, client_id)
+        return v_ticket
 
     def buy(self, symbol, volume, stoploss, takeprofit, price=0, deviation=5):
-        self.trade(symbol, "OPEN", 0, "buy", volume, stoploss, takeprofit, price, deviation, None)
+        return self.trade(symbol, "OPEN", 0, "buy", volume, stoploss, takeprofit, price, deviation, None)
 
     def sell(self, symbol, volume, stoploss, takeprofit, price=0, deviation=5):
-        self.trade(symbol, "OPEN", 1, "sell", volume, stoploss, takeprofit, price, deviation, None)
+        return self.trade(symbol, "OPEN", 1, "sell", volume, stoploss, takeprofit, price, deviation, None)
 
     def buyLimit(self, symbol, volume, stoploss, takeprofit, price=0, deviation=5):
-        self.trade(symbol, "OPEN", 2, "buy limit", volume, stoploss, takeprofit, price, deviation, None)
+        return self.trade(symbol, "OPEN", 2, "buy limit", volume, stoploss, takeprofit, price, deviation, None)
 
     def sellLimit(self, symbol, volume, stoploss, takeprofit, price=0, deviation=5):
-        self.trade(symbol, "OPEN", 3, "sell limit", volume, stoploss, takeprofit, price, deviation, None)
+        return self.trade(symbol, "OPEN", 3, "sell limit", volume, stoploss, takeprofit, price, deviation, None)
 
     def buyStop(self, symbol, volume, stoploss, takeprofit, price=0, deviation=5):
-        self.trade(symbol, "OPEN", 4, "buy stop", volume, stoploss, takeprofit, price, deviation, None)
+        return self.trade(symbol, "OPEN", 4, "buy stop", volume, stoploss, takeprofit, price, deviation, None)
 
     def sellStop(self, symbol, volume, stoploss, takeprofit, price=0, deviation=5):
-        self.trade(symbol, "OPEN", 5, "sell stop", volume, stoploss, takeprofit, price, deviation, None)
+        return self.trade(symbol, "OPEN", 5, "sell stop", volume, stoploss, takeprofit, price, deviation, None)
 
     def positionModify(self, id, stoploss, takeprofit):
         buy = True
         if buy:
-            self.trade("", "MODIFY", 0, "", 0, stoploss, takeprofit, 0, 5, id)
+            return self.trade("", "MODIFY", 0, "", 0, stoploss, takeprofit, 0, 5, id)
         else:
-            self.trade("", "MODIFY", 1, "", 0, stoploss, takeprofit, 0, 5, id)
+            return self.trade("", "MODIFY", 1, "", 0, stoploss, takeprofit, 0, 5, id)
 
     def positionClosePartial(self, id, volume):
-        self.trade("", "PCLOSED", 0, "", volume, 0, 0, 0, 5, id)
+        return self.trade("", "PCLOSED", 0, "", volume, 0, 0, 0, 5, id)
 
     def positionCloseById(self, id, amount):
-        self.trade("", "CLOSED", 0, "", amount/100000, 0, 0, 0, 5, id)
+        return self.trade("", "CLOSED", 0, "", amount/100000, 0, 0, 0, 5, id)
 
     def orderModify(self, id, stoploss, takeprofit, price):
         buy = True
         if buy:
-            self.trade("", "MODIFY", 0, "", 0, stoploss, takeprofit, 0, 5, id)
+            return self.trade("", "MODIFY", 0, "", 0, stoploss, takeprofit, 0, 5, id)
         else:
-            self.trade("", "MODIFY", 1, "", 0, stoploss, takeprofit, 0, 5, id)
+            return self.trade("", "MODIFY", 1, "", 0, stoploss, takeprofit, 0, 5, id)
 
     def orderCancelById(self, id):
         self.trade("", "CLOSED", 2, "", 0, 0, 0, 0, 5, id)
@@ -251,8 +253,9 @@ class CtraderFix:
         self.client.update(positions = positions)
         logging.debug("client_id %s positions: %s", client_id, positions)
 
-    def getPositionIdByOriginId(self, posId: str, client_id: str):
-        return self.fix.origin_to_pos_id[posId]
+    def getPositionIdByOriginId(self, posId: str):
+        if posId in self.fix.origin_to_pos_id:
+            return self.fix.position_list[self.fix.origin_to_pos_id[posId]]
 
     def getOrdersIdByOriginId(self, ordId: str, client_id: str):
         return self.fix.origin_to_ord_id[ordId]
