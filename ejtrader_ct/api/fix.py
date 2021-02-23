@@ -430,6 +430,7 @@ class FIX:
             return
         name = self.sec_id_table[int(msg[Field.Symbol])]["name"]
         self.position_list[msg[Field.PosMaintRptID]] = {
+            "pos_id": msg[Field.PosMaintRptID],
             "name": name,
             "long": float(msg[Field.LongQty]),
             "short": float(msg[Field.ShortQty]),
