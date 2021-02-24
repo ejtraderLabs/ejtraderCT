@@ -35,21 +35,24 @@ CtraderFix.sellStop("GBPUSD", 0.01, 1.19, 1.17, 1.18)
 
 #time.sleep(1)
 
-orders = CtraderFix.orders()
-print(orders)
+#orders = CtraderFix.orders()
+#print(orders)
 # for order in orders:
 #     CtraderFix.orderCancelById(order['ord_id'])
 
 time.sleep(1)
 
-orders = CtraderFix.orders()
-print(orders)
+#orders = CtraderFix.orders()
+#print(orders)
 
-positions = CtraderFix.positions()
-print(positions)
+#positions = CtraderFix.positions()
+#print(positions)
 
-print(CtraderFix.getPositionIdByOriginId(clid_buy))
-print(CtraderFix.getPositionIdByOriginId(clid_sell))
+position_buy = CtraderFix.getPositionIdByClientId(clid_buy)
+position_sell = CtraderFix.getPositionIdByClientId(clid_sell)
+
+print('buy gain ' + position_buy['gain'])
+print('sell gain ' + position_sell['gain'])
 
 CtraderFix.close_all()
 CtraderFix.cancel_all()
