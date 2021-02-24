@@ -28,7 +28,7 @@ class CtraderFix:
         # OPEN CLOSED PCLOSED MODIFY
         v_action = action
         v_symbol = symbol
-        v_ticket = id if id != None else str(time.time()).replace('.', '') + str(random.randint(10000, 99999))
+        v_ticket = id if id != None else '{:.7f}'.format(time.time()).replace('.', '') + str(random.randint(10000, 99999))
         v_type = str(type)
         v_openprice = price
         v_lots = volume
