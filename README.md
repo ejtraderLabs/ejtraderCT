@@ -11,7 +11,7 @@ python setup.py install
 
 ```
 
-### import
+## import
 
 ```python
 from ejtraderCT import Ctrader
@@ -25,7 +25,7 @@ logging.getLogger().setLevel(logging.INFO)
 
 ```
 
-### Fix login account and details
+## Fix login account and details
 
 ```python
 FIX_SERVER="h8.p.c-trader.cn"
@@ -40,31 +40,28 @@ api = Ctrader(FIX_SERVER,FIX_BROKER,FIX_LOGIN,FIX_PASSWORD,FIX_CURRENCY)
 
 ### You can create market or pending order with the commands.
 
-#### Market Orders
+## Market Orders
 
 ```python
 api.buy("EURUSD", 0.01, 1.18, 1.19)
-```
-
-```python
 api.sell("EURUSD", 0.01, 1.19, 1.18)
 ```
 
-#### Limit Orders
+## Limit Orders
 
 ```python
 api.buyLimit("EURUSD", 0.01, 1.17, 1.19, 1.18)
 api.sellLimit("EURUSD", 0.01, 1.23, 1.17, 1.22)
 ```
 
-#### Stop Orders
+## Stop Orders
 
 ```python
 api.buyStop("EURUSD", 0.01, 1.20, 1.24, 1.22)
 api.sellStop("EURUSD", 0.01, 1.19, 1.17, 1.18)
 ```
 
-#### Positions
+## Positions
 
 ```python
 positions = api.positions()
@@ -90,19 +87,19 @@ print(orders)
 
 ```
 
-#### If you want to cancel all Orders
+## cancel all Orders
 
 ```python
 api.cancel_all()
 ```
 
-#### if you want to close all positions
+## close all positions
 
 ```python
 api.close_all()
 ```
 
-### Future add comming soon
+# Future add comming soon
 
 Modify pending orders
 
