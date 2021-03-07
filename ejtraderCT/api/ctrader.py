@@ -9,6 +9,15 @@ from .fix import FIX, Side, OrderType
 class Ctrader:
 
     def __init__(self,server,broker,login,password,currency):
+        """AI is creating summary for __init__
+
+        Args:
+            server ([str]): [example h8.p.c-trader.cn]
+            broker ([str]): [icmarkets]
+            login ([str]): [3152339]
+            password ([str]): [example 123456 need to setup when you create api on ctrader platform]
+            currency ([str]): [EUR deprecating won need anymore for next version]
+        """
         self.client = c = {
             '_id': '1',
             'server': server,
@@ -100,15 +109,67 @@ class Ctrader:
         return v_ticket
 
     def buy(self, symbol, volume, stoploss, takeprofit, price=0, deviation=5):
+        """summary for buy
+
+        Args:
+            symbol ([str]): ["EURUSD"]
+            volume ([float]): [0.01]
+            stoploss ([float]): [1.18]
+            takeprofit ([float]): [1.19]
+            price (int, optional): [on the price]. Defaults to 0.
+            deviation (int, optional): [5].standard deviation Defaults to 5.
+
+        Returns:
+            [int]: [order ID]
+        """
         return self.trade(symbol, "OPEN", 0, "buy", volume, stoploss, takeprofit, price, deviation, None)
 
     def sell(self, symbol, volume, stoploss, takeprofit, price=0, deviation=5):
+        """summary for sell
+
+        Args:
+            symbol ([str]): ["EURUSD"]
+            volume ([float]): [0.01]
+            stoploss ([float]): [1.19]
+            takeprofit ([float]): [1.18]
+            price (int, optional): [on the price]. Defaults to 0.
+            deviation (int, optional): [5]. standard deviation Defaults to 5.
+
+        Returns:
+            [int]: [Order ID]
+        """
         return self.trade(symbol, "OPEN", 1, "sell", volume, stoploss, takeprofit, price, deviation, None)
 
     def buyLimit(self, symbol, volume, stoploss, takeprofit, price=0, deviation=5):
+        """summary for buy Limit
+
+        Args:
+            symbol ([str]): ["EURUSD"]
+            volume ([float]): [0.01]
+            stoploss ([float]): [1.17]
+            takeprofit ([float]): [1.19]
+            price ([float]): [1.8]. Defaults to 0.
+            deviation (int, optional): [5]. standard deviation Defaults to 5.
+
+        Returns:
+            [int]: [order ID]
+        """
         return self.trade(symbol, "OPEN", 2, "buy limit", volume, stoploss, takeprofit, price, deviation, None)
 
     def sellLimit(self, symbol, volume, stoploss, takeprofit, price=0, deviation=5):
+        """summary for sellLimit
+
+        Args:
+            symbol ([str]): ["EURUSD"]
+            volume ([float]): [0.01]
+            stoploss ([type]): [1.23]
+            takeprofit ([type]): [1.17]
+            price (int, optional): [1.22]. Defaults to 0.
+            deviation (int, optional): [description]. standard deviation Defaults to 5.
+
+        Returns:
+            [type]: [description]
+        """
         return self.trade(symbol, "OPEN", 3, "sell limit", volume, stoploss, takeprofit, price, deviation, None)
 
     def buyStop(self, symbol, volume, stoploss, takeprofit, price=0, deviation=5):
