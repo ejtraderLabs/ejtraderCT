@@ -21,7 +21,8 @@ Indices and tables
 
 # Python Ctrader Fix API
 
-## Installation
+Installation
+==================
 
 ```
 pip install ejtraderCT -U
@@ -32,7 +33,8 @@ python setup.py install
 
 ```
 
-## import
+Import Module
+==================
 
 ```python
 from ejtraderCT import Ctrader
@@ -46,7 +48,8 @@ logging.getLogger().setLevel(logging.INFO)
 
 ```
 
-## Fix login account and details
+Fix login account and details
+=============================
 
 ```python
 FIX_SERVER="h8.p.c-trader.cn"
