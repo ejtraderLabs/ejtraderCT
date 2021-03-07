@@ -6,7 +6,7 @@ import os
 from operator import itemgetter
 from .fix import FIX, Side, OrderType
 
-class CtraderFix:
+class Ctrader:
 
     def __init__(self,server,broker,login,password,currency):
         self.client = c = {

@@ -16,10 +16,10 @@ def requirements(filename):
 
 
 setup(
-    name='ejtrader_ct',
+    name='ejtraderCT',
     version='1.0.0',
     packages=find_packages(),
-    url='https://ejtrader_ct.readthedocs.io/',
+    url='https://ejtraderCT.readthedocs.io/',
     download_url='https://ejtrader.com',
     license='MIT License',
     author='Emerson Pedroso & Douglas Barros',
@@ -53,8 +53,8 @@ setup(
         'crypto currencies'
     ]),
     project_urls={
-        'Bug Reports': 'https://github.com/traderpedroso/ejtrader_ct/issues',
-        'Source': 'https://github.com/traderpedroso/ejtrader_ct',
-        'Documentation': 'https://ejtrader.readthedocs.io/'
+        'Bug Reports': 'https://github.com/traderpedroso/ejtraderCT/issues',
+        'Source': 'https://github.com/traderpedroso/ejtraderCT',
+        'Documentation': 'https://ejtraderCT.readthedocs.io/'
     },
 )
