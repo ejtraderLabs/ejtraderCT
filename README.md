@@ -125,6 +125,13 @@ print(accountInfo['broker'])
 print(accountInfo['balance'])
 
 ```
+### ToDo
+
+- [ ] SL and TP
+- [ ] Thread Save
+- [ ] real time bid & ask
+
+
 
 # Thanks for 
 @HarukaMa
