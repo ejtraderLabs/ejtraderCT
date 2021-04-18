@@ -125,3 +125,7 @@ print(accountInfo['broker'])
 print(accountInfo['balance'])
 
 ```
+
+# Thanks for 
+@HarukaMa
+@douglasbarros
