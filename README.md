@@ -7,7 +7,7 @@
 # Python Ctrader Fix API
 
 ## Installation
-
+Tested on python 3.7 and 3.8
 ```
 pip install ejtraderCT -U
 
