@@ -34,13 +34,13 @@ logging.getLogger().setLevel(logging.INFO)
 ## Fix login account and details
 
 ```python
-FIX_SERVER="h8.p.c-trader.cn"
-FIX_BROKER="icmarkets"
-FIX_LOGIN="3152339"
-FIX_PASSWORD="393214"
-FIX_CURRENCY="EUR"
+SERVER="h8.p.c-trader.cn"
+BROKER="icmarkets"
+LOGIN="3152339"
+PASSWORD="393214"
+CURRENCY="EUR"
 
-api = Ctrader(FIX_SERVER,FIX_BROKER,FIX_LOGIN,FIX_PASSWORD,FIX_CURRENCY)
+api = Ctrader(SERVER,BROKER,LOGIN,PASSWORD,CURRENCY)
 
 ```
 
