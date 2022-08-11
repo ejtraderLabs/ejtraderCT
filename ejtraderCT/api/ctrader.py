@@ -1,3 +1,4 @@
+from locale import currency
 import logging
 import json
 import time
@@ -189,7 +190,12 @@ class Ctrader:
         return self.trade("", "PCLOSED", 0, "", volume, 0, 0, 0, 5, id)
 
     def positionCloseById(self, id, amount):
-        return self.trade("", "CLOSED", 0, "", amount/100000, 0, 0, 0, 5, id)
+        try:
+           action= self.trade("", "CLOSED", 0, "", amount/100000, 0, 0, 0, 5, id)
+        except:
+            action = None
+            pass
+        return action
 
     def orderModify(self, id, stoploss, takeprofit, price):
         buy = True
@@ -199,8 +205,13 @@ class Ctrader:
             return self.trade("", "MODIFY", 1, "", 0, stoploss, takeprofit, 0, 5, id)
 
     def orderCancelById(self, id):
-        self.trade("", "CLOSED", 2, "", 0, 0, 0, 0, 5, id)
-
+        try:
+            action = self.trade("", "CLOSED", 2, "", 0, 0, 0, 0, 5, id)
+        except:
+            action = None
+            pass
+        return action
+    
     def accountInfo(self):
         return json.loads(json.dumps(self.api.Command(action="ACCOUNT")))
 
