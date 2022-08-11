@@ -1,7 +1,7 @@
 import logging
 import re
 import threading
-from datetime import datetime
+from datetime import datetime, timedelta
 import time
 from enum import IntEnum, Enum
 import socket
@@ -111,8 +111,11 @@ class OrderType(IntEnum):
     Limit = 2
     Stop = 3
 
-def get_date():
-    return datetime.utcnow().strftime("%Y%m%d-%H:%M:%S.%f")[:-3]
+def get_time(add_seconds=2):
+    if add_seconds:
+        return (datetime.utcnow() + timedelta(0, add_seconds)).strftime("%Y%m%d-%H:%M:%S.%f")[:-3]
+    else:
+        return datetime.utcnow().strftime("%Y%m%d-%H:%M:%S.%f")[:-3]
 
 class FIX:
 
@@ -135,7 +138,7 @@ class FIX:
                 elif sub == SubID.TRADE:
                     self.fields.append((Field.MsgSeqNum, parent.tseq))
                     parent.tseq += 1
-                self.fields.append((Field.SendingTime, get_date()))
+                self.fields.append((Field.SendingTime, get_time()))
             else:
                 self.origin = False
 
@@ -602,10 +605,10 @@ class FIX:
             return
         
         msg = FIX.Message(SubID.TRADE, "D", self)
-        msg[Field.ClOrdId] = originId if originId != None else 'dt' + get_date()
+        msg[Field.ClOrdId] = originId if originId != None else 'dt' + get_time()
         msg[Field.Symbol] = self.sec_name_table[symbol]["id"]
         msg[Field.Side] = side.value
-        msg[Field.TransactTime] = get_date()
+        msg[Field.TransactTime] = get_time()
         msg[Field.OrderQty] = size
         msg[Field.OrdType] = OrderType.Market.value
         msg[Field.Designation] = "test label"
@@ -629,10 +632,10 @@ class FIX:
                 break
 
         msg = FIX.Message(SubID.TRADE, "D", self)
-        msg[Field.ClOrdId] = get_date()
+        msg[Field.ClOrdId] = get_time()
         msg[Field.Symbol] = self.sec_name_table[self.position_list[pos_id]["name"]]["id"]
         msg[Field.Side] = Side.Sell.value if self.position_list[pos_id]["long"] > 0 else Side.Buy.value
-        msg[Field.TransactTime] = get_date()
+        msg[Field.TransactTime] = get_time()
         msg[Field.OrderQty] = lots if lots is not None else self.position_list[pos_id]["long"] if msg[Field.Side] == Side.Sell else self.position_list[pos_id]["short"]
         msg[Field.PosMaintRptID] = pos_id
         msg[Field.OrdType] = OrderType.Market.value
@@ -647,10 +650,10 @@ class FIX:
             return
         
         msg = FIX.Message(SubID.TRADE, "D", self)
-        msg[Field.ClOrdId] = originId if originId != None else 'dt' + get_date()
+        msg[Field.ClOrdId] = originId if originId != None else 'dt' + get_time()
         msg[Field.Symbol] = self.sec_name_table[symbol]["id"]
         msg[Field.Side] = side.value
-        msg[Field.TransactTime] = get_date()
+        msg[Field.TransactTime] = get_time()
         msg[Field.OrderQty] = size
         msg[Field.OrdType] = order_type.value
         if order_type == OrderType.Limit:
