@@ -67,7 +67,7 @@ print(quote)
 ```
 # Market position and pending order.
 
-## Market Orders
+## Market Position
 
 ```python
 api.buy("EURUSD", 0.01, 1.18, 1.19)
@@ -88,14 +88,14 @@ api.buyStop("EURUSD", 0.01, 1.20, 1.24, 1.22)
 api.sellStop("EURUSD", 0.01, 1.19, 1.17, 1.18)
 ```
 
-## Positions
+## List Positions
 
 ```python
 positions = api.positions()
 print(positions)
 
 ```
-## Orders
+## List limit and stop Orders
 
 ```python
 orders = api.orders()
