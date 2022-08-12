@@ -292,7 +292,7 @@ class Ctrader:
                 if side == "Buy":
                     p = price["bid"]
                 else:
-                    p = price["offer"]
+                    p = price["ask"]
                 actual_price = ("{:.%df}" % kv[1]["digits"]).format(p)
                 diff = p - kv[1]["price"]
                 if side == "Sell":
@@ -305,7 +305,7 @@ class Ctrader:
                 price = price_data.get(convert, None)
                 if price:
                     if convert_dir:
-                        rate = 1 / price["offer"]
+                        rate = 1 / price["ask"]
                     else:
                         rate = price["bid"]
                     pl_base = pl * rate
@@ -337,7 +337,20 @@ class Ctrader:
             return
         for clId in clIdArr:
             self.fix.cancel_order(clId)
-
+            
+    def symbolSubscribe(self, *symbol): 
+        symbol = list(symbol)
+        for symbols in symbol:
+            self.fix.spot_market_request(symbols) 
+ 
+    def quote(self, symbol=None): 
+        if symbol and symbol not in self.fix.spot_price_list: 
+            return "Symbol not Subscribed"
+        elif symbol:
+            return self.fix.spot_price_list[symbol]     
+        return self.fix.spot_price_list
+    
+    
     def order_list_callback(self, data: dict, price_data: dict, client_id: str):
         orders = []
         for i, kv in enumerate(data.items()):
@@ -353,7 +366,7 @@ class Ctrader:
             actual_price = ""
             if price:
                 if side == "Buy":
-                    price = price["offer"]
+                    price = price["ask"]
                 else:
                     price = price["bid"]
                 actual_price = self.float_format("{:.%df}" % kv[1]["digits"], price, False)
@@ -375,26 +388,26 @@ class Ctrader:
     def quote_callback(self, name: str, digits: int, data: dict):
         if len(data) == 0:
             return
-        offer = []
+        ask = []
         bid = []
         for e in data.values():
             if e["type"] == 0:
                 bid.append(e)
             else:
-                offer.append(e)
-        offer.sort(key=itemgetter("price"))
+                ask.append(e)
+        ask.sort(key=itemgetter("price"))
         bid.sort(key=itemgetter("price"), reverse=True)
         for i, e in enumerate(bid):
             p = ("{:.%df}" % digits).format(e["price"])
             if "size" in e.keys():
                 a = str(e["size"])
-        for i, e in enumerate(offer):
+        for i, e in enumerate(ask):
             p = ("{:.%df}" % digits).format(e["price"])
             if "size" in e.keys():
                 a = str(e["size"])
         bid_str = ("{:.%df}" % digits).format(bid[0]["price"])
-        offer_str = ("{:.%df}" % digits).format(offer[0]["price"])
-        spread_str = ("{:.%df}" % digits).format(offer[0]["price"] - bid[0]["price"])
+        offer_str = ("{:.%df}" % digits).format(ask[0]["price"])
+        spread_str = ("{:.%df}" % digits).format(ask[0]["price"] - bid[0]["price"])
         self.market_data_list[name] = { "bid": bid_str, "ask": offer_str, "spread": spread_str, "time": time.time()}
     
     def close_all(self):

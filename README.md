@@ -3,7 +3,7 @@
 
 - [ ] SL and TP
 - [ ] Thread Save
-- [ ] real time bid & ask
+- [x] real time bid & ask
 # Python Ctrader Fix API
 
 ## Installation
@@ -42,8 +42,28 @@ CURRENCY="EUR"
 
 api = Ctrader(SERVER,BROKER,LOGIN,PASSWORD,CURRENCY)
 
-```
 
+### New function Real time Quote
+```
+Real time quote
+
+```python
+api.symbolSubscribe("EURUSD", "GBPUSD")
+
+# All symbols subscribed
+
+quote = api.quote()
+print(quote)
+{'EURUSD': {'bid': 1.02616, 'ask': 1.02618}, 'GBPUSD': {'bid': 1.21358, 'ask': 1.21362}}
+
+
+# Single symbol subscribed
+quote = api.quote("EURUSD")
+print(quote)
+
+{'bid': 1.02612, 'ask': 1.02614}
+
+```
 ### You can create market or pending order with the commands.
 
 ## Market Orders
@@ -114,13 +134,7 @@ api.modify()
 
 ```
 
-Real time Data and history
 
-```python
-history = api.history("GBPUSD", "M5", int(datetime.now().timestamp()) - 10000)
-# print(history)
-
-```
 
 Account information
 

@@ -111,7 +111,7 @@ class OrderType(IntEnum):
     Limit = 2
     Stop = 3
 
-def get_time(add_seconds=2):
+def get_time(add_seconds=None):
     if add_seconds:
         return (datetime.utcnow() + timedelta(0, add_seconds)).strftime("%Y%m%d-%H:%M:%S.%f")[:-3]
     else:
@@ -377,7 +377,7 @@ class FIX:
         if not msg[Field.MDEntryID] and msg[Field.NoMDEntries] != "0":
             self.spot_price_list[name] = {}
             for e in entries:
-                self.spot_price_list[name]["bid" if e[Field.MDEntryType] == "0" else "offer"] = float(e[Field.MDEntryPx])
+                self.spot_price_list[name]["bid" if e[Field.MDEntryType] == "0" else "ask"] = float(e[Field.MDEntryPx])
             self.position_list_callback(self.position_list, self.spot_price_list, self.client_id)
             self.order_list_callback(self.order_list, self.spot_price_list, self.client_id)
             return

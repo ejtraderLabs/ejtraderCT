@@ -17,7 +17,7 @@ def requirements(filename):
 
 setup(
     name='ejtraderCT',
-    version='1.0.2',
+    version='1.0.3',
     packages=find_packages(),
     url='https://ejtraderCT.readthedocs.io/',
     download_url='https://ejtrader.com',
