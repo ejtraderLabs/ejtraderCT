@@ -130,32 +130,12 @@ api.cancel_all()
 api.close_all()
 ```
 
-
-
-# Future implementation
-
-Modify pending orders
-
-```python
-api.modify()
-
-```
-
-
-
-Account information
-
-```python
-accountInfo = api.accountInfo()
-print(accountInfo)
-print(accountInfo['broker'])
-print(accountInfo['balance'])
-
-```
 ### ToDo
 
-- [ ] SL and TP
-- [ ] Thread Save
+- [ ] Account Information
+- [x] SL and TP
+- [x] Modify Orders 
+- [x] Modify position 
 - [x] real time bid & ask
 
 # Thanks for 
