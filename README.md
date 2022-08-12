@@ -132,6 +132,17 @@ print(accountInfo['balance'])
 
 ```
 
+Calculate spread
+
+```python
+from ejtraderCT import calculate_spread
+spread = calculate_spread(
+            'bid',
+            'ask',['pip_position']
+        )
+
+```
+
 
 
 
