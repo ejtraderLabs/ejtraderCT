@@ -43,21 +43,22 @@ CURRENCY="EUR"
 api = Ctrader(SERVER,BROKER,LOGIN,PASSWORD,CURRENCY)
 
 
-### New function Real time Quote
+
 ```
+### New function Real time Quote
 Real time quote
 
 ```python
 api.symbolSubscribe("EURUSD", "GBPUSD")
 
-# All symbols subscribed
+# All symbols Quote list
 
 quote = api.quote()
 print(quote)
 {'EURUSD': {'bid': 1.02616, 'ask': 1.02618}, 'GBPUSD': {'bid': 1.21358, 'ask': 1.21362}}
 
 
-# Single symbol subscribed
+# Single symbol Quote 
 quote = api.quote("EURUSD")
 print(quote)
 
