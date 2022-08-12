@@ -45,8 +45,8 @@ api = Ctrader(SERVER,BROKER,LOGIN,PASSWORD,CURRENCY)
 
 
 ```
-### New function Real time Quote
-Real time quote
+# New function Real time Quote
+## Real time quote
 
 ```python
 api.symbolSubscribe("EURUSD", "GBPUSD")
@@ -65,7 +65,7 @@ print(quote)
 {'bid': 1.02612, 'ask': 1.02614}
 
 ```
-### Market and pending order.
+# Market position and pending order.
 
 ## Market Orders
 
