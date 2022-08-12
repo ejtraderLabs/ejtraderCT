@@ -129,7 +129,7 @@ api.cancel_all()
 ```python
 api.close_all()
 ```
-SYMBOL LIST AND IDS
+### SYMBOL LIST AND IDS
 
 ```yml
 'default': {
