@@ -1,0 +1,2 @@
+from ejtraderCT import SYMBOLSLIST
+
