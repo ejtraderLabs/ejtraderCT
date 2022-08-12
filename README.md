@@ -129,31 +129,9 @@ api.cancel_all()
 ```python
 api.close_all()
 ```
-
-# Future add comming soon
-
-Modify pending orders
-
-```python
-api.modify()
-
-```
-
-
-
-Account information
-
-```python
-accountInfo = api.accountInfo()
-print(accountInfo)
-print(accountInfo['broker'])
-print(accountInfo['balance'])
-
-```
-
 SYMBOL LIST AND IDS
 
-```json
+```yml
 'default': {
         1: {'id': 1, 'pip_position': 4, 'name': 'EURUSD', 'bid_volume': 0, 'ask_volume': 0},
         2: {'id': 2, 'pip_position': 4, 'name': 'GBPUSD', 'bid_volume': 0, 'ask_volume': 0},
@@ -230,7 +208,26 @@ spread = calculate_spread(
 
 ```
 
+# Future add comming soon
 
+Modify pending orders
+
+```python
+api.modify()
+
+```
+
+
+
+Account information
+
+```python
+accountInfo = api.accountInfo()
+print(accountInfo)
+print(accountInfo['broker'])
+print(accountInfo['balance'])
+
+```
 
 
 # Thanks for 
