@@ -6,7 +6,7 @@ import random
 import os
 from operator import itemgetter
 from .fix import FIX, Side, OrderType
-
+from .Symbol import SYMBOLSLIST
 class Ctrader:
 
     def __init__(self,server,broker,login,password,currency):
@@ -32,6 +32,7 @@ class Ctrader:
         }
         self.fix = FIX(c['server'], c['broker'], c['login'], c['password'], c['currency'], c['_id'], self.position_list_callback, self.order_list_callback)
         self.market_data_list = {}
+        self.symbol_table = SYMBOLSLIST['default']
 
     def trade(self, symbol, action, type, actionType, volume, stoploss, takeprofit, price, deviation, id):
         #"1 OPEN|EURUSD|1234567890|1|1.2|1.3|0.01|0|0"
@@ -351,6 +352,24 @@ class Ctrader:
         return self.fix.spot_price_list
     
     
+    def spread(self,symbol: str, bid: str, ask: str) -> int:
+        pip_position = self.symbol_table[symbol]['pip_position']
+        spread = float(ask) - float(bid)
+        spread = '{:.{}f}'.format(spread, int(pip_position) + 1)
+        return int(spread.replace('.', ''))
+
+
+    def calculate_pip_value(self,symbol: str, price: str, size: int) -> str:
+        pip_position = self.symbol_table[symbol]['pip_position']
+        pip = (pow(1 / 10, int(pip_position)) * size) / float(price)
+        pip = '{:.5f}'.format(pip)
+        return pip
+
+
+    def calculate_commission(self,size=10000, rate=1, commission=0.000030):
+        # can't handle different size/rate for now
+        return (size * commission) * rate * 2
+
     def order_list_callback(self, data: dict, price_data: dict, client_id: str):
         orders = []
         for i, kv in enumerate(data.items()):

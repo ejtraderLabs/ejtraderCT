@@ -7,7 +7,7 @@ from enum import IntEnum, Enum
 import socket
 from pprint import pformat
 from .buffer import Buffer
-# from .subscribe import Subscribe
+
 
 class Field(IntEnum):
     AvgPx = 6
@@ -111,11 +111,8 @@ class OrderType(IntEnum):
     Limit = 2
     Stop = 3
 
-def get_time(add_seconds=None):
-    if add_seconds:
-        return (datetime.utcnow() + timedelta(0, add_seconds)).strftime("%Y%m%d-%H:%M:%S.%f")[:-3]
-    else:
-        return datetime.utcnow().strftime("%Y%m%d-%H:%M:%S.%f")[:-3]
+def get_time():
+        return datetime.utcnow().strftime('%Y%m%d-%H:%M:%S')
 
 class FIX:
 
