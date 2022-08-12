@@ -65,7 +65,7 @@ print(quote)
 {'bid': 1.02612, 'ask': 1.02614}
 
 ```
-### You can create market or pending order with the commands.
+### Market and pending order.
 
 ## Market Orders
 
@@ -74,7 +74,7 @@ api.buy("EURUSD", 0.01, 1.18, 1.19)
 api.sell("EURUSD", 0.01, 1.19, 1.18)
 ```
 
-## Limit Orders
+## Limit Orders 
 
 ```python
 api.buyLimit("EURUSD", 0.01, 1.17, 1.19, 1.18)
@@ -93,24 +93,28 @@ api.sellStop("EURUSD", 0.01, 1.19, 1.17, 1.18)
 ```python
 positions = api.positions()
 print(positions)
-for position in positions:
-    api.positionCloseById(position['pos_id'], position['amount'])
-
-positions = api.positions()
-print(positions)
 
 ```
-
-## Orders Manipulation
+## Orders
 
 ```python
-Corders = api.orders()
+orders = api.orders()
 print(orders)
+
+```
+## Cancle order by id
+
+```python
+orders = api.orders()
 for order in orders:
     api.orderCancelById(order['ord_id'])
 
-orders = api.orders()
-print(orders)
+```
+## Close position by id
+
+```python
+for position in positions:
+    api.positionCloseById(position['pos_id'], position['amount'])
 
 ```
 
