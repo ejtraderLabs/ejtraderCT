@@ -152,6 +152,7 @@ api.orderModify(id, stoploss, takeprofit, price)
 ### ToDo
 
 - [ ] Account Information
+- [x] Partial close
 - [x] SL and TP
 - [x] Modify Orders 
 - [x] Modify position 
