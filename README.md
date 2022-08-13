@@ -3,6 +3,8 @@
 ### ToDo
 
 - [ ] Account Information
+- [x] Market Position buy and sell
+- [x] Peding orders limit and stop 
 - [x] Partial close
 - [x] SL and TP
 - [x] Modify Orders 
