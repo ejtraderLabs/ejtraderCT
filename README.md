@@ -43,13 +43,13 @@ logging.getLogger().setLevel(logging.INFO)
 ### Fix login account and details
 
 ```python
-SERVER="h8.p.c-trader.cn"
-BROKER="icmarkets"
-LOGIN="3152339"
-PASSWORD="393214"
-CURRENCY="EUR"
+server="h8.p.c-trader.cn" # Host name
+broker="icmarkets" 
+account="3152339"
+password="393214"
+currency="EUR"
 
-api = Ctrader(SERVER,BROKER,LOGIN,PASSWORD,CURRENCY)
+api = Ctrader(server,broker,account,password,currency)
 ```
 ### Real time quote
 
@@ -83,6 +83,7 @@ print(quote)
 
 ```python
 # Buy position
+
 symbol = "EURUSD"
 volume = 0.01 # position size
 stoploss =  1.18
@@ -96,6 +97,7 @@ symbol = "EURUSD"
 volume = 0.01 # position size
 stoploss = 1.19
 takeprofit = 1.18
+
 api.sell(symbol, volume, stoploss, takeprofit)
 ```
 
@@ -110,6 +112,7 @@ volume = 0.01 # position size
 stoploss = 1.17
 takeprofit = 1.19
 price = 1.18 # entry price 
+
 api.buyLimit(symbol, volume, stoploss, takeprofit, price)
 
 
@@ -120,6 +123,7 @@ volume = 0.01 # position size
 stoploss = 1.23
 takeprofit = 1.17
 price = 1.22 # entry price 
+
 api.sellLimit(symbol, volume, stoploss, takeprofit, price)
 ```
 
@@ -133,7 +137,8 @@ symbol = "EURUSD"
 volume = 0.01 # position size
 stoploss = 1.20
 takeprofit = 1.24
-price = 1.22 # entry price 
+price = 1.22 # entry price
+
 api.buyStop(symbol, volume, stoploss, takeprofit, price)
 
 # Sell stop order
@@ -143,6 +148,7 @@ volume = 0.01 # position size
 stoploss = 1.19
 takeprofit = 1.17
 price = 1.18 # entry price 
+
 api.sellStop(symbol, volume, stoploss, takeprofit, price)
 
 ```
