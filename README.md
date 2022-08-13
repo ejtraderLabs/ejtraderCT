@@ -1,5 +1,15 @@
 # Python Ctrader Fix API
 
+### ToDo
+
+- [ ] Account Information
+- [x] Partial close
+- [x] SL and TP
+- [x] Modify Orders 
+- [x] Modify position 
+- [x] real time bid & ask
+
+
 ## Installation
 #### Tested on python 3.7 to 3.9
 ```
@@ -148,15 +158,6 @@ takeprofit "stop gain price"
 api.orderModify(id, stoploss, takeprofit, price)
 
 ```
-
-### ToDo
-
-- [ ] Account Information
-- [x] Partial close
-- [x] SL and TP
-- [x] Modify Orders 
-- [x] Modify position 
-- [x] real time bid & ask
 
 # Thanks for 
 @HarukaMa
