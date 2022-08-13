@@ -82,22 +82,69 @@ print(quote)
 ##### Market Position
 
 ```python
-api.buy("EURUSD", 0.01, 1.18, 1.19)
-api.sell("EURUSD", 0.01, 1.19, 1.18)
+# Buy position
+symbol = "EURUSD"
+volume = 0.01 # position size
+stoploss =  1.18
+takeprofit = 1.19
+
+api.buy(symbol, volume, stoploss, takeprofit)
+
+# sell position 
+
+symbol = "EURUSD"
+volume = 0.01 # position size
+stoploss = 1.19
+takeprofit = 1.18
+api.sell(symbol, volume, stoploss, takeprofit)
 ```
 
 ##### Limit Orders 
 
 ```python
-api.buyLimit("EURUSD", 0.01, 1.17, 1.19, 1.18)
-api.sellLimit("EURUSD", 0.01, 1.23, 1.17, 1.22)
+
+# Buy limit order
+
+symbol = "EURUSD"
+volume = 0.01 # position size
+stoploss = 1.17
+takeprofit = 1.19
+price = 1.18 # entry price 
+api.buyLimit(symbol, volume, stoploss, takeprofit, price)
+
+
+# Sell limit order
+
+symbol = "EURUSD"
+volume = 0.01 # position size
+stoploss = 1.23
+takeprofit = 1.17
+price = 1.22 # entry price 
+api.sellLimit(symbol, volume, stoploss, takeprofit, price)
 ```
 
 #### Stop Orders
 
 ```python
-api.buyStop("EURUSD", 0.01, 1.20, 1.24, 1.22)
-api.sellStop("EURUSD", 0.01, 1.19, 1.17, 1.18)
+
+# Buy stop order
+
+symbol = "EURUSD"
+volume = 0.01 # position size
+stoploss = 1.20
+takeprofit = 1.24
+price = 1.22 # entry price 
+api.buyStop(symbol, volume, stoploss, takeprofit, price)
+
+# Sell stop order
+
+symbol = "EURUSD"
+volume = 0.01 # position size
+stoploss = 1.19
+takeprofit = 1.17
+price = 1.18 # entry price 
+api.sellStop(symbol, volume, stoploss, takeprofit, price)
+
 ```
 
 #### List Positions
