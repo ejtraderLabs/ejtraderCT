@@ -6,7 +6,7 @@
 - [x] Market Position buy and sell
 - [x] Peding orders limit and stop 
 - [x] Partial close
-- [x] SL and TP
+- [x] Stop loss & Take profit
 - [x] Modify Orders 
 - [x] Modify position 
 - [x] real time bid & ask
