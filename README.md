@@ -151,11 +151,12 @@ api.positionModify(id, stoploss, takeprofit)
 
 ```
 
-#### Modify order Order SL and TP
+#### Modify order Order SL and TP and entry price
 ```python
 id = "order id "
 stoploss = "stop loss price""
-takeprofit "stop gain price"
+takeprofit= "stop gain price"
+price = "limit or stop entry price"
 
 api.orderModify(id, stoploss, takeprofit, price)
 
