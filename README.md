@@ -2,7 +2,7 @@
 
 ### ToDo
 
-- [ ] Account Information
+- [ ] Account Information "not possible fix limitation"
 - [x] Market Position buy and sell
 - [x] Peding orders limit and stop 
 - [x] Partial close
