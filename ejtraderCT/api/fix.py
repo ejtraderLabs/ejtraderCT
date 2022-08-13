@@ -247,8 +247,12 @@ class FIX:
             if len(data) == 0:
                 logging.error("Disconnected")
                 break
-            self.qstream.write(data)
-            self.parse_quote_message()
+            try:
+                self.qstream.write(data)
+                self.parse_quote_message()
+            except:
+                print("Market is Close or Disconnected")
+                break
 
     def tworker(self):
         while True:
@@ -259,8 +263,12 @@ class FIX:
             if len(data) == 0:
                 logging.error("Disconnected")
                 break
-            self.tstream.write(data)
-            self.parse_trade_message()
+            try:
+                self.tstream.write(data)
+                self.parse_trade_message()
+            except:
+                print("Market is Close or Disconnected")
+                break
 
     def parse_quote_message(self):
         while len(self.qstream) > 0:
