@@ -222,8 +222,6 @@ class Ctrader:
     def orders(self):
         return json.loads(json.dumps(self.client['orders']))
 
-    def history(self, symbol, chartTF, fromDate):
-        return json.loads(json.dumps(self.api.Command(action="HISTORY", actionType="DATA", symbol=symbol, chartTF=chartTF, fromDate=fromDate)))
     
     def parse_command(self, command: str, client_id: str):
         parts = command.split(" ")
@@ -351,24 +349,6 @@ class Ctrader:
             return self.fix.spot_price_list[symbol]     
         return self.fix.spot_price_list
     
-    
-    def spread(self,symbol: str, bid: str, ask: str) -> int:
-        pip_position = self.symbol_table[symbol]['pip_position']
-        spread = float(ask) - float(bid)
-        spread = '{:.{}f}'.format(spread, int(pip_position) + 1)
-        return int(spread.replace('.', ''))
-
-
-    def calculate_pip_value(self,symbol: str, price: str, size: int) -> str:
-        pip_position = self.symbol_table[symbol]['pip_position']
-        pip = (pow(1 / 10, int(pip_position)) * size) / float(price)
-        pip = '{:.5f}'.format(pip)
-        return pip
-
-
-    def calculate_commission(self,size=10000, rate=1, commission=0.000030):
-        # can't handle different size/rate for now
-        return (size * commission) * rate * 2
 
     def order_list_callback(self, data: dict, price_data: dict, client_id: str):
         orders = []
