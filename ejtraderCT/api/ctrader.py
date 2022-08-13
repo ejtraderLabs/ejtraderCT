@@ -337,7 +337,7 @@ class Ctrader:
         for clId in clIdArr:
             self.fix.cancel_order(clId)
             
-    def symbolSubscribe(self, *symbol): 
+    def subscribe(self, *symbol): 
         symbol = list(symbol)
         for symbols in symbol:
             self.fix.spot_market_request(symbols) 

@@ -55,7 +55,7 @@ api = Ctrader(SERVER,BROKER,LOGIN,PASSWORD,CURRENCY)
 
 ##### Subscribe to symbol 
 ```python
-api.symbolSubscribe("EURUSD", "GBPUSD")
+api.subscribe("EURUSD", "GBPUSD")
 ```
 ##### All symbols quote list
 ```python
