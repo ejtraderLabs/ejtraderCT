@@ -129,6 +129,25 @@ api.cancel_all()
 ```python
 api.close_all()
 ```
+#### Modify Position SL and TP
+```python
+id = "position id "
+stoploss = "stop loss price""
+takeprofit "stop gain price"
+
+api.positionModify(id, stoploss, takeprofit)
+
+```
+
+#### Modify order Order SL and TP
+```python
+id = "order id "
+stoploss = "stop loss price""
+takeprofit "stop gain price"
+
+api.orderModify(id, stoploss, takeprofit, price)
+
+```
 
 ### ToDo
 
