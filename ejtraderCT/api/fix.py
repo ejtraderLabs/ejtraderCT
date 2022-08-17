@@ -7,8 +7,7 @@ from enum import IntEnum, Enum
 import socket
 from pprint import pformat
 from .buffer import Buffer
-from .math import calculate_spread
-from .Symbol import SYMBOLSLIST
+
 
 class Field(IntEnum):
     AvgPx = 6
@@ -121,7 +120,6 @@ class FIX:
 
         def __init__(self, sub: SubID = None, msg_type: str = None, parent = None):
             self.fields = []
-            self.symbol_table = SYMBOLSLIST['default']
             if parent:
                 self.origin = True
                 self.fields.append((Field.BeginString, "FIX.4.4"))
@@ -384,18 +382,8 @@ class FIX:
         if not msg[Field.MDEntryID] and msg[Field.NoMDEntries] != "0":
             self.spot_price_list[name] = {}
             for e in entries:
-                ask_idx = 1 if e[0][Field.MDEntryType] == '0' else 0
-                bid_idx = (ask_idx + 1) % 2
-                spread = calculate_spread(
-                e[bid_idx][Field.MDEntryPx],
-                e[ask_idx][Field.MDEntryPx],
-                self.symbol_table[int(msg.get_field(Field.Symbol))]['pip_position']
-                 )
                 self.spot_price_list[name]["time"] = int(round(time.time() * 1000))
-                self.spot_price_list[name]["spread"] = spread
-                self.spot_price_list[name]["bid"] = e[bid_idx][Field.MDEntryPx]
-                self.spot_price_list[name]["ask"] = e[ask_idx][Field.MDEntryPx]
-                
+                self.spot_price_list[name]["bid" if e[Field.MDEntryType] == "0" else "ask"] = float(e[Field.MDEntryPx])
             self.position_list_callback(self.position_list, self.spot_price_list, self.client_id)
             self.order_list_callback(self.order_list, self.spot_price_list, self.client_id)
             return
