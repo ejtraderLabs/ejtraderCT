@@ -324,12 +324,15 @@ class Ctrader:
         self.client.update(positions = positions)
         logging.debug("client_id %s positions: %s", client_id, positions)
 
-    def getPositionIdByOriginId(self, posId: str):
+    def getPositionIdByOriginId(self, posId: str, client_id: str):
         if posId in self.fix.origin_to_pos_id:
             return self.fix.position_list[self.fix.origin_to_pos_id[posId]]
 
     def getOrdersIdByOriginId(self, ordId: str, client_id: str):
-        return self.fix.origin_to_ord_id[ordId]
+        if ordId in self.fix.origin_to_ord_id:  # Verifique se a chave existe antes de acessá-la
+            return self.fix.origin_to_ord_id[ordId]
+        else:
+            return None  # Retorne None ou outro valor padrão quando a chave não existir
 
     def cancelOrdersByOriginId(self, clIdArr, client_id: str):
         if clIdArr == None:

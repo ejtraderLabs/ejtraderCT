@@ -435,6 +435,7 @@ class FIX:
             return None
 
     def process_position_list(self, msg):
+        
         if msg[Field.PosReqResult] == "2":
             return
         name = self.sec_id_table[int(msg[Field.Symbol])]["name"]
