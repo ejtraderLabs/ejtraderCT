@@ -417,3 +417,6 @@ class Ctrader:
     
     def cancel_all(self):
         self.fix.cancel_all()
+        
+    def logout(self):
+        self.fix.logout()
