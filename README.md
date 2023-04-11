@@ -50,7 +50,14 @@ password="393214"
 currency="EUR"
 
 api = Ctrader(server,broker,account,password,currency)
+
 ```
+
+##### to Disconnect logout from account 
+```python
+api.logout()
+```
+
 ### Real time quote
 
 ##### Subscribe to symbol 
