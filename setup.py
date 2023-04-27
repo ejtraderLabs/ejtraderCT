@@ -43,7 +43,6 @@ setup(
         "Topic :: Software Development :: Libraries"
     ],
     python_requires='>=3',
-    },
     keywords=', '.join([
         'ctrader', 'fix-api', 'historical-data',
         'financial-data', 'stocks', 'funds', 'etfs',
