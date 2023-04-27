@@ -1,3 +1,5 @@
+![Pypi Publish](https://github.com/ejtraderLabs/ejtraderCT/actions/workflows/python-publish.yml/badge.svg)
+
 # Python Ctrader Fix API
 
 ### ToDo
