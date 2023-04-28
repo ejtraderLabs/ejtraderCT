@@ -21,7 +21,7 @@ setup(
     packages=find_packages(),
     url='https://ejtraderCT.readthedocs.io/',
     download_url='https://ejtrader.com',
-    license='MIT License',
+    license='GPL-3.0',
     author='Emerson Pedroso & Douglas Barros',
     author_email='support@ejtrader.com',
     description='Ctrader Fix API',
