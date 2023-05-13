@@ -31,7 +31,7 @@ python setup.py install
 
 ```
 
-### Import librarys 
+### Import libraries
 
 ```python
 from ejtraderCT import Ctrader
@@ -45,7 +45,7 @@ logging.getLogger().setLevel(logging.INFO)
 
 ```
 
-### Fix login account and details
+### Fix account login and details
 
 ```python
 server="h8.p.c-trader.cn" # Host name
@@ -58,18 +58,18 @@ api = Ctrader(server,broker,account,password,currency)
 
 ```
 
-##### to Disconnect logout from account 
+##### To disconnect and logout from the account
 ```python
 api.logout()
 ```
 
-### Real time quote
+### Real-time quote
 
-##### Subscribe to symbol 
+##### Subscribe to symbols
 ```python
 api.subscribe("EURUSD", "GBPUSD")
 ```
-##### All symbols quote list
+##### List of quotes for all symbols
 ```python
 quote = api.quote()
 print(quote)
@@ -79,7 +79,7 @@ print(quote)
 {'EURUSD': {'bid': 1.02616, 'ask': 1.02618}, 'GBPUSD': {'bid': 1.21358, 'ask': 1.21362}}
 ```
 
-#### Single symbol quote 
+#### Quote for a single symbol 
 ```python
 quote = api.quote("EURUSD")
 print(quote)
@@ -89,15 +89,15 @@ print(quote)
 {'bid': 1.02612, 'ask': 1.02614}
 
 ```
-### Market position and pending order.
+### Market position and pending orders.
 
-##### Market Position
+##### Market position
 
 ```python
 # Buy position
 
 symbol = "EURUSD"
-volume = 0.01 # position size
+volume = 0.01 # position size:
 stoploss =  1.18
 takeprofit = 1.19
 
@@ -113,7 +113,7 @@ takeprofit = 1.18
 api.sell(symbol, volume, stoploss, takeprofit)
 ```
 
-##### Limit Orders 
+##### Limit Orders
 
 ```python
 
@@ -179,7 +179,7 @@ orders = api.orders()
 print(orders)
 
 ```
-#### Cancle order by id
+#### Cancel order by id
 
 ```python
 orders = api.orders()
@@ -195,18 +195,18 @@ for position in positions:
 
 ```
 
-#### cancel all Orders
+#### Cancel all orders
 
 ```python
 api.cancel_all()
 ```
 
-#### close all positions
+#### Close all positions
 
 ```python
 api.close_all()
 ```
-#### Modify Position SL and TP
+#### Modify position SL and TP
 ```python
 id = "position id "
 stoploss = "stop loss price""
@@ -216,7 +216,7 @@ api.positionModify(id, stoploss, takeprofit)
 
 ```
 
-#### Modify order Order SL and TP and entry price
+#### Modify order SL and TP and entry price
 ```python
 id = "order id "
 stoploss = "stop loss price""
@@ -226,7 +226,7 @@ price = "limit or stop entry price"
 api.orderModify(id, stoploss, takeprofit, price)
 
 ```
-## Contributors
+## Contributors:
 
 <!-- CONTRIBUTORS:START -->
 <!-- CONTRIBUTORS:END -->
