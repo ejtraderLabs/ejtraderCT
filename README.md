@@ -58,14 +58,6 @@ To access your API, follow these simple steps:
 
 ```python
 from ejtraderCT import Ctrader
-
-import time
-import logging
-from datetime import datetime
-
-logging.getLogger().setLevel(logging.INFO)
-
-
 ```
 
 ### Fix account login and details
