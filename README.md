@@ -1,7 +1,7 @@
 ![Pypi Publish](https://github.com/ejtraderLabs/ejtraderCT/actions/workflows/python-publish.yml/badge.svg)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/ejtraderLabs/ejtraderCT)
 [![License](https://img.shields.io/github/license/ejtraderLabs/ejtraderCT)](https://github.com/ejtraderLabs/ejtraderCT/blob/master/LICENSE)
-[![PyPi downloads](https://img.shields.io/pypi/dm/ejtraderct?style=flat-square&logo=pypi&logoColor=white)](https://pypi.org/project/ejtraderct/)
+[![PyPi downloads](https://img.shields.io/pypi/dm/ejtraderCT?style=flat-square&logo=pypi&logoColor=white)](https://pypi.org/project/ejtraderCT/)
 
 # Python Ctrader Fix API
 
