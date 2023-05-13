@@ -31,6 +31,29 @@ python setup.py install
 
 ```
 
+## Accessing the Ctrader FIX API
+
+
+To access your API, follow these simple steps:
+
+1. Open the cTrader desktop or web platform.
+2. In the bottom left corner of the platform, you will find the **Settings** option. Click on it.
+3. A popup window will appear. In the menu of the popup, look for the last option: **FIX API**.
+4. First, click on the **Change Password** button. Make sure to add a numeric password of at least 8 digits.
+5. After changing the password, click on the **Copy to Clipboard** button from  **Trade Connection**.
+6. Now, let's move to the **Trade Connection** section. Here, you will receive your data in the following format (this is an example with IC Markets for a real account):
+
+   - Host name: (Current IP address 168.205.95.20 can be changed without notice)
+   - Port: 5212 (SSL), 5202 (Plain text)
+   - Password: (a/c 1104928 password)
+   - SenderCompID: live.icmarkets.1104926 or demo.icmarkets.1104926  or live2.icmarkets.1104926 
+   - TargetCompID: cServer
+   - SenderSubID: TRADE
+
+
+
+
+
 ### Import libraries
 
 ```python
@@ -48,13 +71,11 @@ logging.getLogger().setLevel(logging.INFO)
 ### Fix account login and details
 
 ```python
-server="h8.p.c-trader.cn" # Host name
-broker="icmarkets" 
-account="3152339"
-password="393214"
-currency="EUR"
+server="168.205.95.20" # - Host name: (Current IP address 168.205.95.20 can be changed without notice)
+account="live.icmarkets.1104926" #  - SenderCompID: live.icmarkets.1104928
+password="12345678" # - The password you configured
 
-api = Ctrader(server,broker,account,password,currency)
+api = Ctrader(server,account,password)
 
 ```
 
@@ -101,7 +122,8 @@ volume = 0.01 # position size:
 stoploss =  1.18
 takeprofit = 1.19
 
-api.buy(symbol, volume, stoploss, takeprofit)
+id = api.buy(symbol, volume, stoploss, takeprofit)
+print(f"Position: {id}")
 
 # sell position 
 
@@ -110,7 +132,8 @@ volume = 0.01 # position size
 stoploss = 1.19
 takeprofit = 1.18
 
-api.sell(symbol, volume, stoploss, takeprofit)
+id = api.sell(symbol, volume, stoploss, takeprofit)
+print(f"Position: {id}")
 ```
 
 ##### Limit Orders
@@ -120,23 +143,25 @@ api.sell(symbol, volume, stoploss, takeprofit)
 # Buy limit order
 
 symbol = "EURUSD"
-volume = 0.01 # position size
+volume = 0.01 # order size
 stoploss = 1.17
 takeprofit = 1.19
 price = 1.18 # entry price 
 
-api.buyLimit(symbol, volume, stoploss, takeprofit, price)
+id = api.buyLimit(symbol, volume, stoploss, takeprofit, price)
+print(f"Order: {id}")
 
 
 # Sell limit order
 
 symbol = "EURUSD"
-volume = 0.01 # position size
+volume = 0.01 # Order size
 stoploss = 1.23
 takeprofit = 1.17
 price = 1.22 # entry price 
 
-api.sellLimit(symbol, volume, stoploss, takeprofit, price)
+id = api.sellLimit(symbol, volume, stoploss, takeprofit, price)
+print(f"Order: {id}")
 ```
 
 #### Stop Orders
@@ -146,17 +171,18 @@ api.sellLimit(symbol, volume, stoploss, takeprofit, price)
 # Buy stop order
 
 symbol = "EURUSD"
-volume = 0.01 # position size
+volume = 0.01 # order size
 stoploss = 1.20
 takeprofit = 1.24
 price = 1.22 # entry price
 
-api.buyStop(symbol, volume, stoploss, takeprofit, price)
+id = api.buyStop(symbol, volume, stoploss, takeprofit, price)
+print(f"Order: {id}")
 
 # Sell stop order
 
 symbol = "EURUSD"
-volume = 0.01 # position size
+volume = 0.01 # order size
 stoploss = 1.19
 takeprofit = 1.17
 price = 1.18 # entry price 

@@ -191,50 +191,54 @@ class FIX:
             return pformat([(k.name, v) for k, v in self.fields])
 
     def __init__(self, server: str, broker: str, login: str, password: str, currency: str, client_id: str, position_list_callback, order_list_callback):
-        self.qstream = Buffer()
-        self.qs = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.qs.connect((server, 5201))
-        self.tstream = Buffer()
-        self.ts = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.ts.connect((server, 5202))
-        self.broker = broker
-        self.login = login
-        self.password = password
-        self.currency = currency
-        self.client_id = client_id
-        self.qseq = 1
-        self.tseq = 1
-        self.qtest_seq = 1
-        self.ttest_seq = 1
-        self.market_seq = 1
-        self.subscribed_symbol = [-1, -1, -1]
-        self.qworker_thread = threading.Thread(target=self.qworker)
-        self.qworker_thread.start()
-        self.tworker_thread = threading.Thread(target=self.tworker)
-        self.tworker_thread.start()
-        self.ping_qworker_thread = None
-        self.ping_tworker_thread = None
-        self.sec_list_callback = None
-        self.market_callback = None
-        self.sec_id_table = {}
-        self.sec_name_table = {}
-        self.position_list_callback = position_list_callback
-        self.order_list_callback = order_list_callback
-        self.market_data = {}
-        self.position_list = {}
-        self.spot_request_list = set()
-        self.spot_price_list = {}
-        self.base_convert_request_list = set()
-        self.base_convert_list = {}
-        self.order_list = {}
-        self.origin_to_pos_id = {}
-        self.origin_to_ord_id = {}
-        self.logged = False
-        self.logon()
-        self.sec_list_evt = threading.Event()
-        self.thread_sec_list = threading.Thread(target=self.sec_list)
-        self.thread_sec_list.start()
-        self.sec_list_evt.wait()
+        try:
+            self.qstream = Buffer()
+            self.qs = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.qs.connect((server, 5201))
+            self.tstream = Buffer()
+            self.ts = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.ts.connect((server, 5202))
+            self.broker = broker
+            self.login = login
+            self.password = password
+            self.currency = currency
+            self.client_id = client_id
+            self.qseq = 1
+            self.tseq = 1
+            self.qtest_seq = 1
+            self.ttest_seq = 1
+            self.market_seq = 1
+            self.subscribed_symbol = [-1, -1, -1]
+            self.qworker_thread = threading.Thread(target=self.qworker)
+            self.qworker_thread.start()
+            self.tworker_thread = threading.Thread(target=self.tworker)
+            self.tworker_thread.start()
+            self.ping_qworker_thread = None
+            self.ping_tworker_thread = None
+            self.sec_list_callback = None
+            self.market_callback = None
+            self.sec_id_table = {}
+            self.sec_name_table = {}
+            self.position_list_callback = position_list_callback
+            self.order_list_callback = order_list_callback
+            self.market_data = {}
+            self.position_list = {}
+            self.spot_request_list = set()
+            self.spot_price_list = {}
+            self.base_convert_request_list = set()
+            self.base_convert_list = {}
+            self.order_list = {}
+            self.origin_to_pos_id = {}
+            self.origin_to_ord_id = {}
+            self.logged = False
+            self.logon()
+            self.sec_list_evt = threading.Event()
+            self.thread_sec_list = threading.Thread(target=self.sec_list)
+            self.thread_sec_list.start()
+            self.sec_list_evt.wait()
+        except Exception as e:
+            # Code to handle the exception
+            logging.error(f"{e}")
 
     def qworker(self):
         while True:
@@ -243,7 +247,7 @@ class FIX:
             except:
                 break
             if len(data) == 0:
-                logging.error("Disconnected")
+                print("Quote Logged out")
                 break
             try:
                 self.qstream.write(data)
@@ -256,16 +260,16 @@ class FIX:
         while True:
             try:
                 data = self.ts.recv(65535)
-            except:
+            except Exception as e:
                 break
             if len(data) == 0:
-                logging.error("Disconnected")
+                print("Trade Logged out")
                 break
             try:
                 self.tstream.write(data)
                 self.parse_trade_message()
-            except:
-                print("Market is Close or Disconnected")
+            except Exception as e:
+                print(f"Market is Close or Logged out {e}")
                 break
 
     def parse_quote_message(self):
@@ -366,12 +370,12 @@ class FIX:
 
     def process_logon(self, msg):
         if msg[Field.SenderSubID] == "QUOTE":
-            logging.info("Quote logged on - client_id %s" % self.client_id)
+            print("Quote logged on - id %s" % self.client_id)
             self.ping_qworker_thread = threading.Thread(target=self.ping_qworker, args=[int(msg[Field.HeartBtInt])])
             self.ping_qworker_thread.start()
             self.logged = True
         elif msg[Field.SenderSubID] == "TRADE":
-            logging.info("Trade logged on - client_id %s" % self.client_id)
+            print("Trade logged on - id %s" % self.client_id)
             self.ping_tworker_thread = threading.Thread(target=self.ping_tworker, args=[int(msg[Field.HeartBtInt])])
             self.ping_tworker_thread.start()
 
@@ -465,8 +469,8 @@ class FIX:
         self.position_list_callback(self.position_list, self.spot_price_list, self.client_id)
 
     def process_reject(self, msg):
-        logging.error(msg[Field.Text])
-
+        logging.error(msg[Field.Text].split(":")[1])
+       
     message_dispatch = {
         "0": process_ping,
         "1": process_test,

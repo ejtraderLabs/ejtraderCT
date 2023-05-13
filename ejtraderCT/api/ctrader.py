@@ -9,16 +9,20 @@ from .fix import FIX, Side, OrderType
 from .Symbol import SYMBOLSLIST
 class Ctrader:
 
-    def __init__(self,server,broker,login,password,currency):
+    def __init__(self,server,account,password,debug=False):
         """AI is creating summary for __init__
 
         Args:
             server ([str]): [example h8.p.c-trader.cn]
-            broker ([str]): [icmarkets]
-            login ([str]): [3152339]
-            password ([str]): [example 123456 need to setup when you create api on ctrader platform]
-            currency ([str]): [EUR deprecating won need anymore for next version]
+            account ([str]): [live.icmarkets.1104926 or demo.icmarkets.1104926]
+            password ([str]): [example 12345678 need to setup when you create api on ctrader platform]
         """
+        if debug:
+            logging.getLogger().setLevel(logging.INFO)
+        split_string = account.split(".")
+        broker = split_string[0] + "." + split_string[1]
+        login = split_string[2]
+        currency = "EUR"
         self.client = c = {
             '_id': '1',
             'server': server,
