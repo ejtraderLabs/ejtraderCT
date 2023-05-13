@@ -225,7 +225,11 @@ price = "limit or stop entry price"
 api.orderModify(id, stoploss, takeprofit, price)
 
 ```
+## Contribuidores
 
-# Thanks for 
-@HarukaMa
-@douglasbarros
+<!-- CONTRIBUTORS:START -->
+<!-- CONTRIBUTORS:END -->
+
+## Acknowledgements
+
+I would like to express my gratitude to [@HarukaMa](https://github.com/HarukaMa) for creating the initial project. Their work has been an invaluable starting point for my modifications and improvements.
