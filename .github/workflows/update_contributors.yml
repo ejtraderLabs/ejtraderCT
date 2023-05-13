@@ -18,10 +18,11 @@ jobs:
           repo=${GITHUB_REPOSITORY#*/}
           owner=${GITHUB_REPOSITORY%/*}
           contributors=$(curl -s "https://api.github.com/repos/$owner/$repo/contributors" | jq -r '.[].login')
-          echo "## Contribuidores" > contributors.md
+          echo "## Contributors" > contributors.md
           for contributor in $contributors; do
             echo "- $contributor" >> contributors.md
           done
-          sed -i '/<!-- CONTRIBUTORS:START -->/,/<!-- CONTRIBUTORS:END -->/c\'"$(cat contributors.md)" README.md
+          sed -i '/<!-- CONTRIBUTORS:START -->/,/<!-- CONTRIBUTORS:END -->/{/<!-- CONTRIBUTORS:START -->/{p;r contributors.md}; /<!-- CONTRIBUTORS:END -->/q}' README.md
+
 
 
