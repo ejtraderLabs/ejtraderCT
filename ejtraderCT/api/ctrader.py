@@ -424,3 +424,4 @@ class Ctrader:
         
     def logout(self):
         self.fix.logout()
+ 

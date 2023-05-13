@@ -324,9 +324,10 @@ class FIX:
             self.theartbeat(msg[Field.TestReqID])
 
     def process_logout(self, msg):
-        logging.error("Logged out: %s" % msg[Field.Text])
         if msg[Field.Text] == None:
             self.logged = False
+            
+       
 
     def process_exec_report(self, msg):
         if msg[Field.ExecType] == "F":
@@ -370,12 +371,12 @@ class FIX:
 
     def process_logon(self, msg):
         if msg[Field.SenderSubID] == "QUOTE":
-            print("Quote logged on - id %s" % self.client_id)
+            print("Quote logged on")
             self.ping_qworker_thread = threading.Thread(target=self.ping_qworker, args=[int(msg[Field.HeartBtInt])])
             self.ping_qworker_thread.start()
             self.logged = True
         elif msg[Field.SenderSubID] == "TRADE":
-            print("Trade logged on - id %s" % self.client_id)
+            print("Trade logged on")
             self.ping_tworker_thread = threading.Thread(target=self.ping_tworker, args=[int(msg[Field.HeartBtInt])])
             self.ping_tworker_thread.start()
 
@@ -469,7 +470,11 @@ class FIX:
         self.position_list_callback(self.position_list, self.spot_price_list, self.client_id)
 
     def process_reject(self, msg):
-        logging.error(msg[Field.Text].split(":")[1])
+        checkOrders = msg[Field.Text].split(":")[1]
+        if checkOrders == "no orders found":
+            print("No Orders")
+        else:
+            logging.error(checkOrders)
        
     message_dispatch = {
         "0": process_ping,
@@ -625,7 +630,6 @@ class FIX:
         msg[Field.Designation] = "test label"
         if pos_id:
             msg[Field.PosMaintRptID] = pos_id
-        print(msg)
         self.send_message(msg)
 
     def close_position(self, pos_id: str, lots):
