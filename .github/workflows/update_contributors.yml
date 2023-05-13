@@ -1,0 +1,25 @@
+name: Update Contributors
+
+on:
+  push:
+    branches:
+      - main  # Altere para o nome da sua branch principal
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Update Contributors
+        run: |
+          repo=${GITHUB_REPOSITORY#*/}
+          owner=${GITHUB_REPOSITORY%/*}
+          contributors=$(curl -s "https://api.github.com/repos/$owner/$repo/contributors" | jq -r '.[].login')
+          echo "## Contribuidores" > contributors.md
+          for contributor in $contributors; do
+            echo "- $contributor" >> contributors.md
+          done
+          sed -i '/<!-- CONTRIBUTORS:START -->/,/<!-- CONTRIBUTORS:END -->/c\'"$(cat contributors.md)" README.md
