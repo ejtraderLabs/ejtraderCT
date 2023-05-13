@@ -3,7 +3,7 @@ name: Update Contributors
 on:
   push:
     branches:
-      - master  
+      - master
 
 jobs:
   update-readme:
@@ -22,4 +22,5 @@ jobs:
           for contributor in $contributors; do
             echo "- $contributor" >> contributors.md
           done
-          sed -i '/<!-- CONTRIBUTORS:START -->/,/<!-- CONTRIBUTORS:END -->/c\'"$(cat contributors.md)" README.md
+          sed -i '/<!-- CONTRIBUTORS:START -->/,/<!-- CONTRIBUTORS:END -->/{/<!-- CONTRIBUTORS:START -->/p;/<!-- CONTRIBUTORS:END -->/p;d}' README.md
+
