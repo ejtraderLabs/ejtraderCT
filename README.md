@@ -225,7 +225,7 @@ price = "limit or stop entry price"
 api.orderModify(id, stoploss, takeprofit, price)
 
 ```
-## Contribuidores
+## Contributors
 
 <!-- CONTRIBUTORS:START -->
 <!-- CONTRIBUTORS:END -->
