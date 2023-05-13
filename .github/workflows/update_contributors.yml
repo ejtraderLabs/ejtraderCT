@@ -3,7 +3,7 @@ name: Update Contributors
 on:
   push:
     branches:
-      - main  # Altere para o nome da sua branch principal
+      - master  
 
 jobs:
   update-readme:
