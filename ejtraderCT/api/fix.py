@@ -190,7 +190,7 @@ class FIX:
         def __repr__(self):
             return pformat([(k.name, v) for k, v in self.fields])
 
-    def __init__(self, server: str, broker: str, login: str, password: str, currency: str, client_id: str, position_list_callback, order_list_callback):
+    def __init__(self, server: str, broker: str, login: str, password: str, currency: str, client_id: str, position_list_callback, order_list_callback,update_fix_status=None):
         try:
             self.qstream = Buffer()
             self.qs = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -221,6 +221,7 @@ class FIX:
             self.sec_name_table = {}
             self.position_list_callback = position_list_callback
             self.order_list_callback = order_list_callback
+            self.update_fix_status = update_fix_status
             self.market_data = {}
             self.position_list = {}
             self.spot_request_list = set()
@@ -326,6 +327,7 @@ class FIX:
     def process_logout(self, msg):
         if msg[Field.Text] == None:
             self.logged = False
+        self.update_fix_status(self.client_id, self.logged)
             
        
 
