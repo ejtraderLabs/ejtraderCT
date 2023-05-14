@@ -5,30 +5,35 @@
 
 # Python Ctrader Fix API
 
-### ToDo
+`ejtraderCT` is a Python library to access the Ctrader trading platform's FIX API.
 
-- [ ] Account Information "not possible fix limitation"
+## Features
+
 - [x] Market Position buy and sell
-- [x] Peding orders limit and stop 
+- [x] Pending orders limit and stop 
 - [x] Partial close
 - [x] Stop loss & Take profit
 - [x] Modify Orders 
 - [x] Modify position 
-- [x] real time bid & ask
+- [x] Real-time bid & ask
+- [x] Check connection status
+- [ ] Rest API server (in development)
+- [ ] Webhook for Tradingviewer (in development)
 
+## Prerequisites
+
+The library has been tested on Python 3.7 to 3.9.
 
 ## Installation
-#### Tested on python 3.7 to 3.9
-```
+
+To install the latest version of `ejtraderCT`, you can use pip:
+
+```shell
 pip install ejtraderCT -U
 ```
-#### Or install from source
-
-```
-git clone https://github.com/ejtraderLabs/ejtraderCT
-cd ejtraderCT
-python setup.py install
-
+Or if you want to install from source, you can use:
+```shell
+pip install git+https://github.com/ejtraderLabs/ejtraderCT.git
 ```
 
 ## Accessing the Ctrader FIX API
@@ -70,13 +75,16 @@ password="12345678" # - The password you configured
 api = Ctrader(server,account,password)
 
 ```
-
-##### To disconnect and logout from the account
+##### Check the connection status
+```python
+api.isconnected()
+```
+##### Logout 
 ```python
 api.logout()
 ```
 
-### Real-time quote
+#### Real-time quote
 
 ##### Subscribe to symbols
 ```python
@@ -244,11 +252,16 @@ price = "limit or stop entry price"
 api.orderModify(id, stoploss, takeprofit, price)
 
 ```
-## Contributors:
+## Contributing
 
-<!-- CONTRIBUTORS:START -->
-<!-- CONTRIBUTORS:END -->
+We welcome any contribution to `ejtraderCT`. Here are some ways to contribute:
+
+1. Report issues or suggest improvements by opening an [issue](https://github.com/ejtraderLabs/ejtraderCT/issues).
+2. Contribute with code to fix issues or add features via a [Pull Request](https://github.com/ejtraderLabs/ejtraderCT/pulls).
+
+Before submitting a pull request, please make sure your codes are well formatted and tested.
 
 ## Acknowledgements
 
 I would like to express my gratitude to [@HarukaMa](https://github.com/HarukaMa) for creating the initial project. Their work has been an invaluable starting point for my modifications and improvements.
+

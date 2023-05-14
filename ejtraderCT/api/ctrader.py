@@ -356,7 +356,6 @@ class Ctrader:
             return self.fix.spot_price_list[symbol]     
         return self.fix.spot_price_list
     
-
     def order_list_callback(self, data: dict, price_data: dict, client_id: str):
         orders = []
         for i, kv in enumerate(data.items()):
@@ -423,5 +422,14 @@ class Ctrader:
         self.fix.cancel_all()
         
     def logout(self):
-        self.fix.logout()
+        if self.isconnected():
+            self.fix.logout()
+            logout = "Logged out"
+        else:
+            logout = "Not logged in"
+        return logout
+    
+    
+    def isconnected(self):
+        return self.fix.logged
  

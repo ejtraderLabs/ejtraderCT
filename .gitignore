@@ -6,4 +6,6 @@ dist/
 __pycache__
 .DS_Store
 fix.ipynb
-examples
+examples/test
+.app.py
+.env
