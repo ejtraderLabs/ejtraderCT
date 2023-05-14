@@ -11,6 +11,7 @@ ADD . /app
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
+
 # Install any needed packages specified in requirements.txt
 RUN apk add --update --no-cache --virtual .tmp gcc libc-dev linux-headers
 RUN pip install --no-cache-dir -r requirements.txt
