@@ -1,0 +1,451 @@
+{
+	"info": {
+		"_postman_id": "1758d6fa-7479-47f8-beb0-bd0018c63e12",
+		"name": "EjtraderCT RestAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20696130"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/login",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Connection Status",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/status",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Subscribe to symbols",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"symbols\": [\"EURUSD\", \"GBPUSD\"]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/subscribe",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"subscribe"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get quotes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/quote",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"quote"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get single quote",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/quote/EURUSD",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"quote",
+						"EURUSD"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Buy",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"symbol\": \"EURUSD\",\n  \"volume\": 0.01,\n  \"stoploss\": 1.18,\n  \"takeprofit\": 1.19\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/buy",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"buy"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sell",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"symbol\": \"EURUSD\",\n  \"volume\": 0.01,\n  \"stoploss\": 1.19,\n  \"takeprofit\": 1.18\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/sell",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"sell"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Buy Limit",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"symbol\": \"EURUSD\",\n  \"volume\": 0.01,\n  \"stoploss\": 1.17,\n  \"takeprofit\": 1.19,\n  \"price\": 1.18\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/buyLimit",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"buyLimit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sell Limit",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"symbol\": \"EURUSD\",\n  \"volume\": 0.01,\n  \"stoploss\": 1.23,\n  \"takeprofit\": 1.17,\n  \"price\": 1.22\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/sellLimit",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"sellLimit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Buy Stop",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"symbol\": \"EURUSD\",\n  \"volume\": 0.01,\n  \"stoploss\": 1.20,\n  \"takeprofit\": 1.24,\n  \"price\": 1.22\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/buyStop",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"buyStop"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sell Stop",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"symbol\": \"EURUSD\",\n  \"volume\": 0.01,\n  \"stoploss\": 1.19,\n  \"takeprofit\": 1.17,\n  \"price\": 1.18\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/sellStop",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"sellStop"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Positions",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/positions",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"positions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Orders",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/orders",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cancel Order",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\": \"order_id\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/orderCancel",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"orderCancel"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Close Position",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\": \"position_id\",\n  \"amount\": \"amount\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/positionClose",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"positionClose"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cancel All Orders",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/cancelAll",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"cancelAll"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Close All Positions",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/closeAll",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"closeAll"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Modify Position",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\": \"position_id\",\n  \"stoploss\": 1.20,\n  \"takeprofit\": 1.22\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/positionModify",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"positionModify"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/logout",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"logout"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
