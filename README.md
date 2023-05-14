@@ -69,7 +69,7 @@ from ejtraderCT import Ctrader
 
 ```python
 server="168.205.95.20" # - Host name: (Current IP address 168.205.95.20 can be changed without notice)
-account="live.icmarkets.1104928" #  - SenderCompID: live.icmarkets.1104928
+account="live.icmarkets.1104926" #  - SenderCompID: live.icmarkets.1104926
 password="12345678" # - The password you configured
 
 api = Ctrader(server,account,password)
