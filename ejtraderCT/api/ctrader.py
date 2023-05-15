@@ -68,8 +68,6 @@ class Ctrader:
         deviation,
         id,
     ):
-        # "1 OPEN|EURUSD|1234567890|1|1.2|1.3|0.01|0|0"
-        # OPEN CLOSED PCLOSED MODIFY
         v_action = action
         v_symbol = symbol
         v_ticket = (
@@ -120,14 +118,13 @@ class Ctrader:
                         if ticket:  # Verifica se a variável ticket não está vazia
                             break
                     except Exception as e:
+                        logging.info(e)
                         continue
 
                 if ticket:
                     if float(v_sl) > 0:
                         # abre posicao pendente SL
                         otype = "sell stop" if v_type == "0" else "buy stop"
-                        logging.info(v_ticket)
-                        logging.info(ticket)
                         command = "{0} {1} {2} {3} {4} {5}".format(
                             otype, symbol, size, v_sl, v_ticket, ticket
                         )
@@ -137,8 +134,6 @@ class Ctrader:
                         ticket_orders = self.getOrdersIdByOriginId(v_ticket, client_id)
                         # abre posicao pendente TP
                         otype = "sell limit" if v_type == "0" else "buy limit"
-                        logging.info(v_ticket)
-                        logging.info(ticket)
                         command = "{0} {1} {2} {3} {4} {5}".format(
                             otype, symbol, size, v_tp, v_ticket, ticket
                         )
@@ -146,7 +141,7 @@ class Ctrader:
         elif v_action == "MODIFY":
             # POSICAO: verifica qual o ticket do client pelo ticket do server
             ticket = self.getPositionIdByOriginId(v_ticket, client_id)
-            if ticket != None:
+            if ticket:
                 # cancela ordens pendentes abertas de TP e SL
                 ticket_orders = self.getOrdersIdByOriginId(v_ticket, client_id)
                 self.cancelOrdersByOriginId(ticket_orders, client_id)
@@ -217,7 +212,7 @@ class Ctrader:
             None,
         )
 
-    def sell(self, symbol, volume, stoploss, takeprofit, price=0, deviation=5):
+    def sell(self, symbol, volume, stoploss=0, takeprofit=9, price=0, deviation=5):
         """summary for sell
 
         Args:
@@ -244,7 +239,7 @@ class Ctrader:
             None,
         )
 
-    def buyLimit(self, symbol, volume, stoploss, takeprofit, price=0, deviation=5):
+    def buyLimit(self, symbol, volume, stoploss=0, takeprofit=0, price=0, deviation=5):
         """summary for buy Limit
 
         Args:
@@ -271,7 +266,7 @@ class Ctrader:
             None,
         )
 
-    def sellLimit(self, symbol, volume, stoploss, takeprofit, price=0, deviation=5):
+    def sellLimit(self, symbol, volume, stoploss=0, takeprofit=0, price=0, deviation=5):
         """summary for sellLimit
 
         Args:
@@ -298,7 +293,7 @@ class Ctrader:
             None,
         )
 
-    def buyStop(self, symbol, volume, stoploss, takeprofit, price=0, deviation=5):
+    def buyStop(self, symbol, volume, stoploss=0, takeprofit=0, price=0, deviation=5):
         return self.trade(
             symbol,
             "OPEN",
@@ -312,7 +307,7 @@ class Ctrader:
             None,
         )
 
-    def sellStop(self, symbol, volume, stoploss, takeprofit, price=0, deviation=5):
+    def sellStop(self, symbol, volume, stoploss=0, takeprofit=0, price=0, deviation=5):
         return self.trade(
             symbol,
             "OPEN",
@@ -326,7 +321,7 @@ class Ctrader:
             None,
         )
 
-    def positionModify(self, id, symbol, volume, stoploss, takeprofit):
+    def positionModify(self, id, symbol, volume, stoploss=0, takeprofit=0):
         buy = True
         if buy:
             return self.trade(
@@ -341,7 +336,8 @@ class Ctrader:
     def positionCloseById(self, id, amount):
         try:
             action = self.trade("", "CLOSED", 0, "", amount / 100000, 0, 0, 0, 5, id)
-        except:
+        except Exception as e:
+            logging.info(e)
             action = None
             pass
         return action
@@ -367,7 +363,8 @@ class Ctrader:
     def orderCancelById(self, id):
         try:
             action = self.trade("", "CLOSED", 2, "", 0, 0, 0, 0, 5, id)
-        except:
+        except Exception as e:
+            logging.info(e)
             action = None
             pass
         return action
@@ -381,9 +378,9 @@ class Ctrader:
     def parse_command(self, command: str, client_id: str):
         parts = command.split(" ")
         logging.info(parts)
-        logging.info("Command: %s ", command)
+        logging.info(f"Command: {command} ")
 
-        if self.fix.logged == False:
+        if not self.fix.logged:
             logging.info("waiting logging...")
             return
 
@@ -502,7 +499,7 @@ class Ctrader:
             return None  # Retorne None ou outro valor padrão quando a chave não existir
 
     def cancelOrdersByOriginId(self, clIdArr, client_id: str):
-        if clIdArr == None:
+        if not clIdArr:
             return
         for clId in clIdArr:
             self.fix.cancel_order(clId)
@@ -571,14 +568,7 @@ class Ctrader:
                 ask.append(e)
         ask.sort(key=itemgetter("price"))
         bid.sort(key=itemgetter("price"), reverse=True)
-        for i, e in enumerate(bid):
-            p = ("{:.%df}" % digits).format(e["price"])
-            if "size" in e.keys():
-                a = str(e["size"])
-        for i, e in enumerate(ask):
-            p = ("{:.%df}" % digits).format(e["price"])
-            if "size" in e.keys():
-                a = str(e["size"])
+
         bid_str = ("{:.%df}" % digits).format(bid[0]["price"])
         offer_str = ("{:.%df}" % digits).format(ask[0]["price"])
         spread_str = ("{:.%df}" % digits).format(ask[0]["price"] - bid[0]["price"])
