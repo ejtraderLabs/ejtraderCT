@@ -627,7 +627,7 @@ class FIX:
 
     def spot_market_request(self, symbol):
         msg = FIX.Message(SubID.QUOTE, "V", self)
-        msg[Field.MDReqID] = -1
+        msg[Field.MDReqID] = self.client_id
         msg[Field.SubscriptionRequestType] = 1
         msg[Field.MarketDepth] = 1
         msg[Field.NoMDEntryTypes] = 2
@@ -640,18 +640,18 @@ class FIX:
 
     def position_request(self):
         msg = FIX.Message(SubID.TRADE, "AN", self)
-        msg[Field.PosReqID] = 16336345
+        msg[Field.PosReqID] = self.client_id
         self.send_message(msg)
 
     def order_request(self):
         msg = FIX.Message(SubID.TRADE, "AF", self)
-        msg[Field.MassStatusReqID] = 1
+        msg[Field.MassStatusReqID] = self.client_id
         msg[Field.MassStatusReqType] = 7
         self.send_message(msg)
 
     def sec_list(self, callback=None):
         msg = FIX.Message(SubID.QUOTE, "x", self)
-        msg[Field.SecurityReqID] = 1
+        msg[Field.SecurityReqID] = self.client_id
         msg[Field.SecurityListRequestType] = 0
         self.sec_list_callback = callback
         self.send_message(msg)
@@ -659,6 +659,8 @@ class FIX:
     def new_market_order(
         self, symbol, side: Side, size: float, originId=None, pos_id=None
     ):
+        logging.info(f"error ORIGINAL ID: {originId}")
+        logging.info(f"error POS ID: {pos_id}")
         if symbol not in self.sec_name_table:
             return
 
@@ -669,9 +671,10 @@ class FIX:
         msg[Field.TransactTime] = get_time()
         msg[Field.OrderQty] = size
         msg[Field.OrdType] = OrderType.Market.value
-        msg[Field.Designation] = "test label"
+        msg[Field.Designation] = f"EjtraderCT ClientID: {self.client_id}"
         if pos_id:
             msg[Field.PosMaintRptID] = pos_id
+
         self.send_message(msg)
 
     def close_position(self, pos_id: str, lots):
@@ -724,6 +727,8 @@ class FIX:
         originId=None,
         pos_id=None,
     ):
+        logging.error(f"error ORIGINAL ID: {originId}")
+        logging.error(f"error POS ID: {pos_id}")
         if symbol not in self.sec_name_table:
             return
 

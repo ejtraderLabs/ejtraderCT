@@ -6,7 +6,7 @@ from ejtraderCT import Ctrader
 
 
 app = FastAPI()
-api = None
+api = Ctrader(os.getenv("HOST_NAME"), os.getenv("SENDER_COMPID"), os.getenv("PASSWORD"))
 
 
 class LoginModel(BaseModel):
@@ -38,15 +38,19 @@ class IdModel(BaseModel):
     id: str
 
 
+async def check():
+    return api.isconnected()
+
+
 @app.post("/login")
 async def login():
     global api
-    api = Ctrader(
-        os.getenv("HOST_NAME"), os.getenv("SENDER_COMPID"), os.getenv("PASSWORD")
-    )
     if api.isconnected():
         return {"message": "Logged in"}
     else:
+        api = Ctrader(
+            os.getenv("HOST_NAME"), os.getenv("SENDER_COMPID"), os.getenv("PASSWORD")
+        )
         return {"error": "Check your credencials"}
 
 

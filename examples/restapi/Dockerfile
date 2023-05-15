@@ -10,7 +10,9 @@ ADD . /app
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-
+ENV HOST_NAME="server"
+ENV SENDER_COMPID="accout"
+ENV PASSWORD="password"
 
 # Install any needed packages specified in requirements.txt
 RUN apk add --update --no-cache --virtual .tmp gcc libc-dev linux-headers
