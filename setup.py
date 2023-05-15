@@ -18,11 +18,11 @@ def requirements(filename):
 
 setup(
     name="ejtraderCT",
-    version="1.1.0",
+    version="1.0.9",
     packages=find_packages(),
     url="https://ejtraderCT.readthedocs.io/",
     download_url="https://ejtrader.com",
-    license="GPL-3.0",
+    license="MIT License",
     author="Emerson Pedroso & Douglas Barros",
     author_email="support@ejtrader.com",
     description="Ctrader Fix API",
@@ -61,8 +61,8 @@ setup(
         ]
     ),
     project_urls={
-        "Bug Reports": "https://github.com/traderpedroso/ejtraderCT/issues",
-        "Source": "https://github.com/traderpedroso/ejtraderCT",
+        "Bug Reports": "https://github.com/ejtraderLabs/ejtraderCT/issues",
+        "Source": "https://github.com/ejtraderLabs/ejtraderCT",
         "Documentation": "https://ejtraderCT.readthedocs.io/",
     },
 )

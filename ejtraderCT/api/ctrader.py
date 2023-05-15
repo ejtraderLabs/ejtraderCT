@@ -3,7 +3,6 @@ import logging
 import json
 import time
 import random
-import os
 from operator import itemgetter
 from .fix import FIX, Side, OrderType
 from .Symbol import SYMBOLSLIST
@@ -144,6 +143,32 @@ class Ctrader:
                             otype, symbol, size, v_tp, v_ticket, ticket
                         )
                         self.parse_command(command, client_id)
+        elif v_action == "MODIFY":
+            # POSICAO: verifica qual o ticket do client pelo ticket do server
+            ticket = self.getPositionIdByOriginId(v_ticket, client_id)
+            if ticket != None:
+                # cancela ordens pendentes abertas de TP e SL
+                ticket_orders = self.getOrdersIdByOriginId(v_ticket, client_id)
+                self.cancelOrdersByOriginId(ticket_orders, client_id)
+                if float(v_sl) > 0:
+                    # cancela ordens pendentes abertas de TP e SL
+                    ticket_orders = self.getOrdersIdByOriginId(v_ticket, client_id)
+                    self.cancelOrdersByOriginId(ticket_orders, client_id)
+                    otype = "sell stop" if v_type == "0" else "buy stop"
+                    command = "{0} {1} {2} {3} {4} {5}".format(
+                        otype, symbol, size, v_sl, v_ticket, ticket
+                    )
+                    self.parse_command(command, client_id)
+                if float(v_tp) > 0:
+                    # cancela ordens pendentes abertas de TP e SL
+                    ticket_orders = self.getOrdersIdByOriginId(v_ticket, client_id)
+                    self.cancelOrdersByOriginId(ticket_orders, client_id)
+                    # abre posicao pendente TP
+                    otype = "sell limit" if v_type == "0" else "buy limit"
+                    command = "{0} {1} {2} {3} {4} {5}".format(
+                        otype, symbol, size, v_tp, v_ticket, ticket
+                    )
+                    self.parse_command(command, client_id)
 
         elif v_action in ["CLOSED", "PCLOSED"]:
             if int(v_type) > 1:
@@ -152,6 +177,7 @@ class Ctrader:
                 self.fix.cancel_order(v_ticket)
                 ticket_orders = self.getOrdersIdByOriginId(v_ticket, client_id)
                 self.cancelOrdersByOriginId(ticket_orders, client_id)
+                self.parse_command(command, client_id)
                 return
             else:
                 # POSICAO
@@ -159,6 +185,7 @@ class Ctrader:
                 # cancela ordens pendentes abertas de TP e SL
                 ticket_orders = self.getOrdersIdByOriginId(v_ticket, client_id)
                 self.cancelOrdersByOriginId(ticket_orders, client_id)
+                self.parse_command(command, client_id)
                 return
 
         return v_ticket
@@ -299,11 +326,11 @@ class Ctrader:
             None,
         )
 
-    def positionModify(self, id, volume, stoploss, takeprofit):
+    def positionModify(self, id, symbol, volume, stoploss, takeprofit):
         buy = True
         if buy:
             return self.trade(
-                "", "MODIFY", 0, "", volume, stoploss, takeprofit, 0, 5, id
+                "", "MODIFY", 0, symbol, volume, stoploss, takeprofit, 0, 5, id
             )
         else:
             return self.trade("", "MODIFY", 1, "", 0, stoploss, takeprofit, 0, 5, id)
@@ -353,8 +380,8 @@ class Ctrader:
 
     def parse_command(self, command: str, client_id: str):
         parts = command.split(" ")
-        logging.error(parts)
-        # logging.info("Command: %s ", command)
+        logging.info(parts)
+        logging.info("Command: %s ", command)
 
         if self.fix.logged == False:
             logging.info("waiting logging...")
@@ -423,34 +450,28 @@ class Ctrader:
             diff_str = ""
             pl_str = ""
             gain_str = ""
-            if side == "Buy":
-                p = price["ask"]
-                spread = price["ask"] - price["bid"]
-            else:
-                p = price["bid"]
-                spread = price["ask"] - price["bid"]
-            actual_price = ("{:.%df}" % kv[1]["digits"]).format(p)
-            diff = p - kv[1]["price"]
-            if side == "Sell":
-                diff = -diff
-            diff_str = self.float_format("{:+.%df}" % kv[1]["digits"], diff)
-            pl = amount * diff
-            pl_str = self.float_format("{:+.2f}", pl)
-            spread_cost = spread * amount
-            pl_after_spread = pl - spread_cost  # subtrai o custo do spread do lucro
-            convert = kv[1]["convert"]
-            convert_dir = kv[1]["convert_dir"]
-            price = price_data.get(convert, None)
             if price:
-                if convert_dir:
-                    rate = 1 / price["ask"]
+                if side == "Buy":
+                    p = price["bid"]
                 else:
-                    rate = price["bid"]
-                pl_base = (
-                    pl_after_spread * rate
-                )  # ajusta o lucro após o spread pela taxa de conversão
-                gain_str = "{:+.2f}".format(round(pl_base, 2))
-
+                    p = price["ask"]
+                actual_price = ("{:.%df}" % kv[1]["digits"]).format(p)
+                diff = p - kv[1]["price"]
+                if side == "Sell":
+                    diff = -diff
+                diff_str = self.float_format("{:+.%df}" % kv[1]["digits"], diff)
+                pl = amount * diff
+                pl_str = self.float_format("{:+.2f}", pl)
+                convert = kv[1]["convert"]
+                convert_dir = kv[1]["convert_dir"]
+                price = price_data.get(convert, None)
+                if price:
+                    if convert_dir:
+                        rate = 1 / price["ask"]
+                    else:
+                        rate = price["bid"]
+                    pl_base = pl * rate
+                    gain_str = "{:+.2f}".format(round(pl_base, 2))
             # adiciona informacoes de posicoes no client
             positions.append(
                 {

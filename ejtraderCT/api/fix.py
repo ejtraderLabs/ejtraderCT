@@ -727,8 +727,8 @@ class FIX:
         originId=None,
         pos_id=None,
     ):
-        logging.error(f"error ORIGINAL ID: {originId}")
-        logging.error(f"error POS ID: {pos_id}")
+        logging.info(f"error ORIGINAL ID: {originId}")
+        logging.info(f"error POS ID: {pos_id}")
         if symbol not in self.sec_name_table:
             return
 
