@@ -35,4 +35,5 @@ if latest_release is None or latest_release.tag_name != setup_version:
         message="",
         draft=False,
         prerelease=False,
+        target_commitish=os.getenv("GITHUB_SHA"),
     )
