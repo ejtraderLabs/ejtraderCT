@@ -16,6 +16,7 @@ class Ctrader:
         password=None,
         currency="EUR",
         client_id=1,
+        spread=0.00005,
         debug=False,
     ):
         """AI is creating summary for __init__
@@ -23,6 +24,8 @@ class Ctrader:
         Args:
             server ([str]): [example h8.p.c-trader.cn]
             account ([str]): [live.icmarkets.1104926 or demo.icmarkets.1104926]
+            client_id ([str]):[example 1 or trader-1 its comment on position label]
+            spread ([int]): [example 0.00010 default 0.00005]
             password ([str]): [example 12345678 need to setup when you create api on ctrader platform]
         """
         if debug:
@@ -112,14 +115,15 @@ class Ctrader:
                 command = "{0} {1} {2} {3}".format(otype, symbol, size, v_ticket)
                 self.parse_command(command, client_id)
 
-                while True:
-                    try:
-                        ticket = self.fix.origin_to_pos_id[v_ticket]
-                        if ticket:  # Verifica se a variável ticket não está vazia
-                            break
-                    except Exception as e:
-                        logging.info(e)
-                        continue
+                if v_sl or v_tp:
+                    while True:
+                        try:
+                            ticket = self.fix.origin_to_pos_id[v_ticket]
+                            if ticket:  # Verifica se a variável ticket não está vazia
+                                break
+                        except Exception as e:
+                            logging.info(e)
+                            continue
 
                 if ticket:
                     if float(v_sl) > 0:
@@ -138,32 +142,6 @@ class Ctrader:
                             otype, symbol, size, v_tp, v_ticket, ticket
                         )
                         self.parse_command(command, client_id)
-        elif v_action == "MODIFY":
-            # POSICAO: verifica qual o ticket do client pelo ticket do server
-            ticket = self.getPositionIdByOriginId(v_ticket, client_id)
-            if ticket:
-                # cancela ordens pendentes abertas de TP e SL
-                ticket_orders = self.getOrdersIdByOriginId(v_ticket, client_id)
-                self.cancelOrdersByOriginId(ticket_orders, client_id)
-                if float(v_sl) > 0:
-                    # cancela ordens pendentes abertas de TP e SL
-                    ticket_orders = self.getOrdersIdByOriginId(v_ticket, client_id)
-                    self.cancelOrdersByOriginId(ticket_orders, client_id)
-                    otype = "sell stop" if v_type == "0" else "buy stop"
-                    command = "{0} {1} {2} {3} {4} {5}".format(
-                        otype, symbol, size, v_sl, v_ticket, ticket
-                    )
-                    self.parse_command(command, client_id)
-                if float(v_tp) > 0:
-                    # cancela ordens pendentes abertas de TP e SL
-                    ticket_orders = self.getOrdersIdByOriginId(v_ticket, client_id)
-                    self.cancelOrdersByOriginId(ticket_orders, client_id)
-                    # abre posicao pendente TP
-                    otype = "sell limit" if v_type == "0" else "buy limit"
-                    command = "{0} {1} {2} {3} {4} {5}".format(
-                        otype, symbol, size, v_tp, v_ticket, ticket
-                    )
-                    self.parse_command(command, client_id)
 
         elif v_action in ["CLOSED", "PCLOSED"]:
             if int(v_type) > 1:
@@ -185,7 +163,7 @@ class Ctrader:
 
         return v_ticket
 
-    def buy(self, symbol, volume, stoploss, takeprofit, price=0, deviation=5):
+    def buy(self, symbol, volume, stoploss, takeprofit, price=0):
         """summary for buy
 
         Args:
@@ -194,8 +172,6 @@ class Ctrader:
             stoploss ([float]): [1.18]
             takeprofit ([float]): [1.19]
             price (int, optional): [on the price]. Defaults to 0.
-            deviation (int, optional): [5].standard deviation Defaults to 5.
-
         Returns:
             [int]: [order ID]
         """
@@ -208,11 +184,11 @@ class Ctrader:
             stoploss,
             takeprofit,
             price,
-            deviation,
+            None,
             None,
         )
 
-    def sell(self, symbol, volume, stoploss=0, takeprofit=9, price=0, deviation=5):
+    def sell(self, symbol, volume, stoploss=0, takeprofit=9, price=0):
         """summary for sell
 
         Args:
@@ -221,8 +197,6 @@ class Ctrader:
             stoploss ([float]): [1.19]
             takeprofit ([float]): [1.18]
             price (int, optional): [on the price]. Defaults to 0.
-            deviation (int, optional): [5]. standard deviation Defaults to 5.
-
         Returns:
             [int]: [Order ID]
         """
@@ -235,21 +209,17 @@ class Ctrader:
             stoploss,
             takeprofit,
             price,
-            deviation,
+            None,
             None,
         )
 
-    def buyLimit(self, symbol, volume, stoploss=0, takeprofit=0, price=0, deviation=5):
+    def buyLimit(self, symbol, volume, price=0):
         """summary for buy Limit
 
         Args:
             symbol ([str]): ["EURUSD"]
             volume ([float]): [0.01]
-            stoploss ([float]): [1.17]
-            takeprofit ([float]): [1.19]
             price ([float]): [1.8]. Defaults to 0.
-            deviation (int, optional): [5]. standard deviation Defaults to 5.
-
         Returns:
             [int]: [order ID]
         """
@@ -259,24 +229,20 @@ class Ctrader:
             2,
             "buy limit",
             volume,
-            stoploss,
-            takeprofit,
+            None,
+            None,
             price,
-            deviation,
+            None,
             None,
         )
 
-    def sellLimit(self, symbol, volume, stoploss=0, takeprofit=0, price=0, deviation=5):
+    def sellLimit(self, symbol, volume, price=0):
         """summary for sellLimit
 
         Args:
             symbol ([str]): ["EURUSD"]
             volume ([float]): [0.01]
-            stoploss ([type]): [1.23]
-            takeprofit ([type]): [1.17]
             price (int, optional): [1.22]. Defaults to 0.
-            deviation (int, optional): [description]. standard deviation Defaults to 5.
-
         Returns:
             [type]: [description]
         """
@@ -286,49 +252,58 @@ class Ctrader:
             3,
             "sell limit",
             volume,
-            stoploss,
-            takeprofit,
+            None,
+            None,
             price,
-            deviation,
+            None,
             None,
         )
 
-    def buyStop(self, symbol, volume, stoploss=0, takeprofit=0, price=0, deviation=5):
+    def buyStop(self, symbol, volume, price=0):
+        """summary for buyStop
+
+        Args:
+            symbol ([str]): ["EURUSD"]
+            volume ([float]): [0.01]
+            price (int, optional): [1.22]. Defaults to 0.
+        Returns:
+            [type]: [description]
+        """
         return self.trade(
             symbol,
             "OPEN",
             4,
             "buy stop",
             volume,
-            stoploss,
-            takeprofit,
+            None,
+            None,
             price,
-            deviation,
+            None,
             None,
         )
 
-    def sellStop(self, symbol, volume, stoploss=0, takeprofit=0, price=0, deviation=5):
+    def sellStop(self, symbol, volume, price=0):
+        """summary for sellStop
+
+        Args:
+            symbol ([str]): ["EURUSD"]
+            volume ([float]): [0.01]
+            price (int, optional): [1.22]. Defaults to 0.
+        Returns:
+            [type]: [description]
+        """
         return self.trade(
             symbol,
             "OPEN",
             5,
             "sell stop",
             volume,
-            stoploss,
-            takeprofit,
+            None,
+            None,
             price,
-            deviation,
+            None,
             None,
         )
-
-    def positionModify(self, id, symbol, volume, stoploss=0, takeprofit=0):
-        buy = True
-        if buy:
-            return self.trade(
-                "", "MODIFY", 0, symbol, volume, stoploss, takeprofit, 0, 5, id
-            )
-        else:
-            return self.trade("", "MODIFY", 1, "", 0, stoploss, takeprofit, 0, 5, id)
 
     def positionClosePartial(self, id, volume):
         return self.trade("", "PCLOSED", 0, "", volume, 0, 0, 0, 5, id)
@@ -341,24 +316,6 @@ class Ctrader:
             action = None
             pass
         return action
-
-    def orderModify(self, id, stoploss, takeprofit, price):
-        """_summary_
-
-        Args:
-            id (_type_): _description_
-            stoploss (_type_): _description_
-            takeprofit (_type_): _description_
-            price (_type_): _description_
-
-        Returns:
-            _type_: _description_
-        """
-        buy = True
-        if buy:
-            return self.trade("", "MODIFY", 0, "", 0, stoploss, takeprofit, 0, 5, id)
-        else:
-            return self.trade("", "MODIFY", 1, "", 0, stoploss, takeprofit, 0, 5, id)
 
     def orderCancelById(self, id):
         try:

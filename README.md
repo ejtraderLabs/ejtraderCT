@@ -10,13 +10,12 @@
 ## Features
 
 - [x] Market Position buy and sell
-- [x] Pending orders limit and stop 
-- [x] Partial close
-- [x] Stop loss & Take profit
-- [x] Modify Orders 
-- [x] Modify position 
+- [x] Pending orders limit and stop (No SL and TP)
+- [x] Partial close (No SL and TP)
+- [x] Stop loss & Take profit Only Position
 - [x] Real-time bid & ask
 - [x] Check connection status
+- [x] Custom Client ID and commend in Position
 - [ ] Rest API server (in development)
 - [ ] Webhook for Tradingviewer (in development)
 
@@ -116,21 +115,25 @@ print(quote)
 
 ```python
 # Buy position
+price = api.quote()
+price = price['EURUSD']['bid'] 
 
 symbol = "EURUSD"
 volume = 0.01 # position size:
-stoploss =  1.18
-takeprofit = 1.19
+stoploss =  round(price - 0.00010,6)
+takeprofit = round(price + 0.00010,6)
 
 id = api.buy(symbol, volume, stoploss, takeprofit)
 print(f"Position: {id}")
 
 # sell position 
+price = api.quote()
+price = price['EURUSD']['bid'] 
 
 symbol = "EURUSD"
 volume = 0.01 # position size
-stoploss = 1.19
-takeprofit = 1.18
+stoploss =  round(price + 0.00010,6)
+takeprofit = round(price - 0.00010,6)
 
 id = api.sell(symbol, volume, stoploss, takeprofit)
 print(f"Position: {id}")
@@ -144,11 +147,9 @@ print(f"Position: {id}")
 
 symbol = "EURUSD"
 volume = 0.01 # order size
-stoploss = 1.17
-takeprofit = 1.19
 price = 1.18 # entry price 
 
-id = api.buyLimit(symbol, volume, stoploss, takeprofit, price)
+id = api.buyLimit(symbol, volume, price)
 print(f"Order: {id}")
 
 
@@ -156,11 +157,9 @@ print(f"Order: {id}")
 
 symbol = "EURUSD"
 volume = 0.01 # Order size
-stoploss = 1.23
-takeprofit = 1.17
 price = 1.22 # entry price 
 
-id = api.sellLimit(symbol, volume, stoploss, takeprofit, price)
+id = api.sellLimit(symbol, volume, price)
 print(f"Order: {id}")
 ```
 
@@ -172,22 +171,18 @@ print(f"Order: {id}")
 
 symbol = "EURUSD"
 volume = 0.01 # order size
-stoploss = 1.20
-takeprofit = 1.24
 price = 1.22 # entry price
 
-id = api.buyStop(symbol, volume, stoploss, takeprofit, price)
+id = api.buyStop(symbol, volume, price)
 print(f"Order: {id}")
 
 # Sell stop order
 
 symbol = "EURUSD"
 volume = 0.01 # order size
-stoploss = 1.19
-takeprofit = 1.17
 price = 1.18 # entry price 
 
-api.sellStop(symbol, volume, stoploss, takeprofit, price)
+api.sellStop(symbol, volume, price)
 
 ```
 
@@ -232,26 +227,18 @@ api.cancel_all()
 ```python
 api.close_all()
 ```
-#### Modify position SL and TP
+#### Parcial Close position 
+
 ```python
-id = "position id "
-stoploss = "stop loss price""
-takeprofit "stop gain price"
-
-api.positionModify(id, stoploss, takeprofit)
-
+api.positionPartialClose(id, volume) 
 ```
 
-#### Modify order SL and TP and entry price
-```python
-id = "order id "
-stoploss = "stop loss price""
-takeprofit= "stop gain price"
-price = "limit or stop entry price"
+### Disclosure
 
-api.orderModify(id, stoploss, takeprofit, price)
+Due to certain limitations of the FIX API, there's a specific issue that arises when both the Stop Loss (SL) and Take Profit (TP) features are used concurrently. This issue occurs when one of them is triggered, the other remains open and will execute when the price reaches the specified level again, causing it to open another order. This issue needs to be addressed either within the ejtraderCT library or the application itself.
 
-```
+However, you can avoid this problem by using either the SL or TP, but not both simultaneously.
+
 ## Contributing
 
 We welcome any contribution to `ejtraderCT`. Here are some ways to contribute:
