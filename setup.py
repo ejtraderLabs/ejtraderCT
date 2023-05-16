@@ -16,6 +16,7 @@ def requirements(filename):
     return reqs
 
 
+# Version: 1.1.13
 setup(
     name="ejtraderCT",
     version="1.1.13",
