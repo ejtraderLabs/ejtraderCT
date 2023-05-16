@@ -139,3 +139,10 @@ async def logout():
 @app.post("/status")
 async def status():
     return {"connected": api.isconnected()}
+
+
+@app.post("/subscribe")
+async def subscribe(subscription: SymbolModel):
+    for symbol in subscription.symbols:
+        api.subscribe(symbol)
+    return {"message": "Subscribed to symbols"}
