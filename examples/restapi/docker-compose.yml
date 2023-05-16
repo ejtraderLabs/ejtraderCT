@@ -1,9 +1,13 @@
 version: '3.8'
 services:
-  your-service-name:
+  ejtraderctrest:
+    image: ejtrader/ejtraderct:rest
+    container_name: ejtraderctfixrest
+    restart: always
     build:
       context: .
       dockerfile: Dockerfile
+      
     ports:
       - "8000:8000"
     env_file:

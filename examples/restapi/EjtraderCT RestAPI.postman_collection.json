@@ -7,7 +7,33 @@
 	},
 	"item": [
 		{
-			"name": "Login",
+			"name": "Connection Status",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/status",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "reconnect",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -33,7 +59,7 @@
 			"response": []
 		},
 		{
-			"name": "Connection Status",
+			"name": "Logout",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -47,12 +73,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}/status",
+					"raw": "{{base_url}}/logout",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"status"
+						"logout"
 					]
 				}
 			},
@@ -178,7 +204,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"symbol\": \"EURUSD\",\n  \"volume\": 0.01,\n  \"stoploss\": 1.17,\n  \"takeprofit\": 1.19,\n  \"price\": 1.18\n}",
+					"raw": "{\n  \"symbol\": \"EURUSD\",\n  \"volume\": 0.01,\n  \"price\": 1.18\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -204,7 +230,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"symbol\": \"EURUSD\",\n  \"volume\": 0.01,\n  \"stoploss\": 1.23,\n  \"takeprofit\": 1.17,\n  \"price\": 1.22\n}",
+					"raw": "{\n  \"symbol\": \"EURUSD\",\n  \"volume\": 0.01,\n  \"price\": 1.18\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -230,7 +256,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"symbol\": \"EURUSD\",\n  \"volume\": 0.01,\n  \"stoploss\": 1.20,\n  \"takeprofit\": 1.24,\n  \"price\": 1.22\n}",
+					"raw": "{\n  \"symbol\": \"EURUSD\",\n  \"volume\": 0.01,\n  \"price\": 1.18\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -256,7 +282,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"symbol\": \"EURUSD\",\n  \"volume\": 0.01,\n  \"stoploss\": 1.19,\n  \"takeprofit\": 1.17,\n  \"price\": 1.18\n}",
+					"raw": "{\n  \"symbol\": \"EURUSD\",\n  \"volume\": 0.01,\n  \"price\": 1.18\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -390,58 +416,6 @@
 					],
 					"path": [
 						"closeAll"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Modify Position",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"id\": \"position_id\",\n  \"stoploss\": 1.20,\n  \"takeprofit\": 1.22\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{base_url}}/positionModify",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"positionModify"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Logout",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{base_url}}/logout",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"logout"
 					]
 				}
 			},

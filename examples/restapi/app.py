@@ -1,11 +1,11 @@
 import os
-from typing import List
 from pydantic import BaseModel
 from fastapi import FastAPI
 from ejtraderCT import Ctrader
 
 
 app = FastAPI()
+global api
 api = Ctrader(os.getenv("HOST_NAME"), os.getenv("SENDER_COMPID"), os.getenv("PASSWORD"))
 
 
@@ -16,7 +16,7 @@ class LoginModel(BaseModel):
 
 
 class SymbolModel(BaseModel):
-    symbols: List[str]
+    symbols: list[str]
 
 
 class OrderModel(BaseModel):
@@ -44,14 +44,10 @@ async def check():
 
 @app.post("/login")
 async def login():
-    global api
-    if api.isconnected():
-        return {"message": "Logged in"}
-    else:
-        api = Ctrader(
-            os.getenv("HOST_NAME"), os.getenv("SENDER_COMPID"), os.getenv("PASSWORD")
-        )
-        return {"error": "Check your credencials"}
+    api = Ctrader(
+        os.getenv("HOST_NAME"), os.getenv("SENDER_COMPID"), os.getenv("PASSWORD")
+    )
+    return {"connected": api.isconnected()}
 
 
 @app.get("/quote/{symbol}")
@@ -83,38 +79,22 @@ async def sell(order: OrderModel):
 
 @app.post("/buyLimit")
 async def buy_limit(order: OrderModel):
-    return {
-        "Order": api.buyLimit(
-            order.symbol, order.volume, order.stoploss, order.takeprofit, order.price
-        )
-    }
+    return {"Order": api.buyLimit(order.symbol, order.volume, order.price)}
 
 
 @app.post("/sellLimit")
 async def sell_limit(order: OrderModel):
-    return {
-        "Order": api.sellLimit(
-            order.symbol, order.volume, order.stoploss, order.takeprofit, order.price
-        )
-    }
+    return {"Order": api.sellLimit(order.symbol, order.volume, order.price)}
 
 
 @app.post("/buyStop")
 async def buy_stop(order: OrderModel):
-    return {
-        "Order": api.buyStop(
-            order.symbol, order.volume, order.stoploss, order.takeprofit, order.price
-        )
-    }
+    return {"Order": api.buyStop(order.symbol, order.volume, order.price)}
 
 
 @app.post("/sellStop")
 async def sell_stop(order: OrderModel):
-    return {
-        "Order": api.sellStop(
-            order.symbol, order.volume, order.stoploss, order.takeprofit, order.price
-        )
-    }
+    return {"Order": api.sellStop(order.symbol, order.volume, order.price)}
 
 
 @app.get("/positions")
@@ -149,18 +129,6 @@ async def cancel_all():
 async def close_all():
     api.close_all()
     return {"message": "All positions closed"}
-
-
-@app.post("/positionModify")
-async def position_modify(modify: ModifyModel):
-    api.positionModify(modify.id, modify.stoploss, modify.takeprofit)
-    return {"message": "Position modified"}
-
-
-@app.post("/orderModify")
-async def order_modify(modify: ModifyModel):
-    api.orderModify(modify.id, modify.stoploss, modify.takeprofit, modify.price)
-    return {"message": "Order modified"}
 
 
 @app.post("/logout")
