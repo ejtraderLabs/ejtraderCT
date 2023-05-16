@@ -4,30 +4,31 @@ from setuptools import setup, find_packages
 
 
 def readme():
-    with io.open('README.md', encoding='utf-8') as f:
+    with io.open("README.md", encoding="utf-8") as f:
         return f.read()
+
 
 def requirements(filename):
     reqs = list()
-    with io.open(filename, encoding='utf-8') as f:
+    with io.open(filename, encoding="utf-8") as f:
         for line in f.readlines():
             reqs.append(line.strip())
     return reqs
 
 
 setup(
-    name='ejtraderCT',
-    version='1.1.0',
+    name="ejtraderCT",
+    version="1.1.12",
     packages=find_packages(),
-    url='https://ejtraderCT.readthedocs.io/',
-    download_url='https://ejtrader.com',
-    license='GPL-3.0',
-    author='Emerson Pedroso & Douglas Barros',
-    author_email='support@ejtrader.com',
-    description='Ctrader Fix API',
+    url="https://ejtraderCT.readthedocs.io/",
+    download_url="https://ejtrader.com",
+    license="MIT License",
+    author="Emerson Pedroso & Douglas Barros",
+    author_email="support@ejtrader.com",
+    description="Ctrader Fix API",
     long_description=readme(),
-    long_description_content_type='text/markdown',
-    install_requires=requirements(filename='requirements.txt'),
+    long_description_content_type="text/markdown",
+    install_requires=requirements(filename="requirements.txt"),
     include_package_data=True,
     classifiers=[
         "Programming Language :: Python :: 3 :: Only",
@@ -40,18 +41,28 @@ setup(
         "Topic :: Office/Business :: Financial",
         "Topic :: Office/Business :: Financial :: Investment",
         "Topic :: Scientific/Engineering :: Information Analysis",
-        "Topic :: Software Development :: Libraries"
+        "Topic :: Software Development :: Libraries",
     ],
-    python_requires='>=3',
-    keywords=', '.join([
-        'ctrader', 'fix-api', 'historical-data',
-        'financial-data', 'stocks', 'funds', 'etfs',
-        'indices', 'currency crosses', 'bonds', 'commodities',
-        'crypto currencies'
-    ]),
+    python_requires=">=3",
+    keywords=", ".join(
+        [
+            "ctrader",
+            "fix-api",
+            "historical-data",
+            "financial-data",
+            "stocks",
+            "funds",
+            "etfs",
+            "indices",
+            "currency crosses",
+            "bonds",
+            "commodities",
+            "crypto currencies",
+        ]
+    ),
     project_urls={
-        'Bug Reports': 'https://github.com/traderpedroso/ejtraderCT/issues',
-        'Source': 'https://github.com/traderpedroso/ejtraderCT',
-        'Documentation': 'https://ejtraderCT.readthedocs.io/'
+        "Bug Reports": "https://github.com/ejtraderLabs/ejtraderCT/issues",
+        "Source": "https://github.com/ejtraderLabs/ejtraderCT",
+        "Documentation": "https://ejtraderCT.readthedocs.io/",
     },
 )
