@@ -18,7 +18,7 @@ def requirements(filename):
 
 setup(
     name="ejtraderCT",
-    version="1.1.12",
+    version="1.1.13",
     packages=find_packages(),
     url="https://ejtraderCT.readthedocs.io/",
     download_url="https://ejtrader.com",
@@ -36,6 +36,7 @@ setup(
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
         "License :: OSI Approved :: MIT License",
         "Intended Audience :: Developers",
         "Topic :: Office/Business :: Financial",
