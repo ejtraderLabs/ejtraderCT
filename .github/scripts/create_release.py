@@ -2,8 +2,14 @@ from github import Github
 import os
 import re
 
+# Caminho para o diretório atual do script
+script_dir = os.path.dirname(os.path.realpath(__file__))
+
+# Caminho para o setup.py relativo ao diretório do script
+setup_path = os.path.join(script_dir, "../../setup.py")
+
 # Leitura da versão do setup.py
-with open("../../setup.py", "r") as f:
+with open(setup_path, "r") as f:
     setup_contents = f.read()
 
 match = re.search(r"version\s*=\s*\'([^\']+)\',", setup_contents)
