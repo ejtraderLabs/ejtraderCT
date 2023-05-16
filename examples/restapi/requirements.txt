@@ -1,4 +1,4 @@
 fastapi
 uvicorn
 pydantic
-ejtraderCT==1.1.12
+ejtraderCT==1.1.3
