@@ -22,6 +22,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install PyGithub
           pip install twine
+          pip install build
 
       - name: Create Release
         env:
