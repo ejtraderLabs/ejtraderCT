@@ -1,6 +1,7 @@
 from github import Github
 import setuptools
 import re
+import os
 
 # Leitura da versão do setup.py
 setup_args = {}
