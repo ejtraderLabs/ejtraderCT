@@ -12,7 +12,7 @@ setup_path = os.path.join(script_dir, "../../setup.py")
 with open(setup_path, "r") as f:
     setup_contents = f.read()
 
-match = re.search(r"version\s*=\s*\'([^\']+)", setup_contents)
+match = re.search(r"version\s*=\s*\'([^\']+)\'", setup_contents)
 if match:
     setup_version = match.group(1)
 else:
