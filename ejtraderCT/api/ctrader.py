@@ -101,6 +101,7 @@ class Ctrader:
         symbol = v_symbol[:6]
         size = int(float(v_lots) * 100000)
         global ticket
+        ticket = None
         client_id = str(self.client["_id"])
         command = ""
         if v_action == "OPEN":
