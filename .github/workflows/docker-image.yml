@@ -2,8 +2,8 @@ name: ci
 
 on:
   push:
-    branches:
-      - "master"
+    paths:
+      - "./examples/restapi"
 
 jobs:
   docker:
