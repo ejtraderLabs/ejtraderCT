@@ -152,7 +152,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"symbol\": \"EURUSD\",\n  \"volume\": 0.01,\n  \"stoploss\": 1.18,\n  \"takeprofit\": 1.19\n}",
+					"raw": "{\n  \"symbol\": \"EURUSD\",\n  \"volume\": 0.01,\n  \"stoploss\": 0,\n  \"takeprofit\": 0\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -350,12 +350,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}/orderCancel",
+					"raw": "{{base_url}}/orderCancelById",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"orderCancel"
+						"orderCancelById"
 					]
 				}
 			},
@@ -376,12 +376,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}/positionClose",
+					"raw": "{{base_url}}/positionCloseById",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"positionClose"
+						"positionCloseById"
 					]
 				}
 			},
@@ -393,12 +393,12 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/cancelAll",
+					"raw": "{{base_url}}/cancel_all",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"cancelAll"
+						"cancel_all"
 					]
 				}
 			},
@@ -410,12 +410,12 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/closeAll",
+					"raw": "{{base_url}}/close_all",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"closeAll"
+						"close_all"
 					]
 				}
 			},
