@@ -63,7 +63,7 @@ services:
     container_name: rabbitmq
     restart: always
     environment:
-      HOST_NAME: "68.205.95.20"
+      HOST_NAME: "68.205.95.21"
       SENDER_COMPID: "live.icmarkets.1104926"
       PASSWORD: "12345678"
       
