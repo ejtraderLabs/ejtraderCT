@@ -62,6 +62,7 @@ To access your API, follow these simple steps:
 
 ```python
 from ejtraderCT import Ctrader
+from time
 ```
 
 ### Fix account login and details
@@ -72,11 +73,14 @@ account="live.icmarkets.1104926" #  - SenderCompID: live.icmarkets.1104926
 password="12345678" # - The password you configured
 
 api = Ctrader(server,account,password)
+time.sleep(3)
 
 ```
 ##### Check the connection status
 ```python
-api.isconnected()
+checkConnection = api.isconnected()
+print("Is Connected?: ", checkConnection)
+time.sleep(1)
 ```
 ##### Logout 
 ```python
